@@ -1,0 +1,12 @@
+![banner](./images/workout.jpg)
+
+# Code Workouts
+Repository for Code Workouts of the Day 💪🏼
+
+## Introduction
+The idea is to improve programming skills through practice and repetition, a movement commonly known as [_kata_ or _code kata_](http://codekata.com/).\
+Karate is not that familiar to me, but CrossFit&copy; is. In this modality, there is a continuous hone of basic/simple skills and chaining of those, contributing to the mastery of more complex movements, then applied in a [WOD](https://www.crossfit.com/workout/) (Workout Of the Day). The concept is applied here &mdash; continuous learning through CWOD (Code Workout of the Day).
+
+## Code Workouts Of the Day (CWODs)
+
+- TBD
