@@ -10,3 +10,4 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 ## Code Workouts Of the Day (CWODs)
 
 - [CQRS Booking](./CQRSBooking/)
+- [Karate Chops](./KarateChops/)
