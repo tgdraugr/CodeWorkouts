@@ -13,6 +13,7 @@ namespace KarateChops.UnitTests
         {
             yield return new object[] { (Func<int, int[], int>)Chop };
             yield return new object[] { (Func<int, int[], int>)ChopRecursive };
+            yield return new object[] { (Func<int, int[], int>)ChopFunctional };
         }
         
         [Theory]

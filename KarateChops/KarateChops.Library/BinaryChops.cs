@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace KarateChops.Library
 {
@@ -40,6 +41,24 @@ namespace KarateChops.Library
             }
 
             return Recursive(0, numbers.Length - 1);
+        }
+
+        public static int ChopFunctional(int target, int[] numbers)
+        {
+            int Functional(int begin, int end)
+            {
+                if (begin > end) return -1;
+                var middle = begin + (end - begin) / 2;
+                return numbers switch
+                {
+                    var state when state[middle] == target => middle,
+                    var state when state[middle] > target => Functional(begin, middle - 1),
+                    var state when state[middle] < target => Functional(middle + 1, end),
+                    _ => -1
+                };
+            }
+
+            return Functional(0, numbers.Length - 1);
         }
     }
 }
