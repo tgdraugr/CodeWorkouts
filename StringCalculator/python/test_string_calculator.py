@@ -52,4 +52,26 @@ class SixthStepTests(unittest.TestCase):
             calc.add("//;\n-1;-2")
         self.assertTrue("Negatives not allowed: [-1, -2]" in str(context.exception))
 
+
+class SeventhStepTests(unittest.TestCase):
+    def test_numbers_bigger_than(self):
+        self.assertEqual(2, calc.add("//;\n1001;2"))
+        self.assertEqual(1002, calc.add("//;\n1000;2"))
+        self.assertEqual(2, calc.add("//;\n2;1001"))
+        self.assertEqual(6, calc.add("//;\n2;1001;1;3"))
+
+
+class EighthStepTests(unittest.TestCase):
+    def test_any_length_delimiter(self):
+        self.assertEqual(6, calc.add("//[***]\n1***2***3"))
+        self.assertEqual(10, calc.add("//[+]\n1+2+3+4"))
+        self.assertEqual(10, calc.add("//[..]\n1..2\n3..4"))
+
+
+class NinthStepTests(unittest.TestCase):
+    def test_multiple_delimiters(self):
+        self.assertEqual(6, calc.add("//[*][%]\n1*2%3"))
+        self.assertEqual(10, calc.add("//[a][x][..]\n1a2..3x4"))
+
+
 unittest.main()
