@@ -12,3 +12,4 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 - [CQRS Booking](./CQRSBooking/)
 - [Karate Chops](./KarateChops/)
 - [String Calculator](./StringCalculator/)
+- [Vending Machine](./VendingMachine/)
