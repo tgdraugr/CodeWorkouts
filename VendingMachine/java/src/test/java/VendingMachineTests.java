@@ -1,8 +1,9 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class VendingMachineTests {
 
@@ -12,8 +13,8 @@ public class VendingMachineTests {
     @Test
     public void testSetupWhenEmpty() {
         var vendingMachine = newEmptyVendingMachine();
-        Assertions.assertEquals(vendingMachine.availableChange(), Map.of());
-        Assertions.assertEquals(vendingMachine.availableItems(), Map.of());
+        assertEquals(vendingMachine.availableChange(), Map.of());
+        assertEquals(vendingMachine.availableItems(), Map.of());
     }
 
     @Test
@@ -23,15 +24,15 @@ public class VendingMachineTests {
 
         var vendingMachine = newEmptyVendingMachine();
         vendingMachine.setup(availableChange, availableItems);
-        Assertions.assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 1L));
-        Assertions.assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 1L));
+        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 1L));
+        assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 1L));
 
         availableChange = List.of(new Dollar(), new Dollar());
         availableItems = List.of(newItemWithDefaultPrice("A"), newItemWithDefaultPrice("A"));
 
         vendingMachine.setup(availableChange, availableItems);
-        Assertions.assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 2L));
-        Assertions.assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 2L));
+        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 2L));
+        assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 2L));
     }
 
     @Test
@@ -45,10 +46,10 @@ public class VendingMachineTests {
         var vendingMachine = newEmptyVendingMachine();
 
         vendingMachine.setup(availableChange, availableItems);
-        Assertions.assertEquals(vendingMachine.availableChange(), Map.of(
+        assertEquals(vendingMachine.availableChange(), Map.of(
                 new Dollar(), 2L,
                 new Quarter(), 1L));
-        Assertions.assertEquals(vendingMachine.availableItems(), Map.of(
+        assertEquals(vendingMachine.availableItems(), Map.of(
                 newItemWithDefaultPrice("A"), 2L,
                 newItemWithDefaultPrice("B"), 1L));
     }
@@ -64,12 +65,23 @@ public class VendingMachineTests {
         var vendingMachine = newEmptyVendingMachine();
 
         vendingMachine.setup(availableChange, availableItems);
-        Assertions.assertEquals(vendingMachine.availableChange(), Map.of(
+        assertEquals(vendingMachine.availableChange(), Map.of(
                 new Dollar(), 1L,
                 new Quarter(), 2L));
-        Assertions.assertEquals(vendingMachine.availableItems(), Map.of(
+        assertEquals(vendingMachine.availableItems(), Map.of(
                 newItemWithDefaultPrice("A"), 1L,
                 newItemWithDefaultPrice("B"), 2L));
+    }
+
+    @Test
+    public void testInsertedAmount() {
+        var vendingMachine = newEmptyVendingMachine();
+        vendingMachine.insert(new Quarter());
+        assertEquals(vendingMachine.currentAmount().value(), 0.25);
+        vendingMachine.insert(new Quarter());
+        assertEquals(vendingMachine.currentAmount().value(), 0.5);
+        vendingMachine.insert(new Dollar());
+        assertEquals(vendingMachine.currentAmount().value(), 1.5);
     }
 
     private VendingMachine newEmptyVendingMachine() {

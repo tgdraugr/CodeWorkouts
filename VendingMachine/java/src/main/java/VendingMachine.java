@@ -3,11 +3,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class VendingMachine {
+    private final List<Money> insertedMoney;
     private List<Money> availableChange;
     private List<Item> availableItems;
 
     public VendingMachine(List<Money> availableChange, List<Item> availableItems) {
+        this(availableChange, availableItems, new ArrayList<>());
+    }
+
+    protected VendingMachine(List<Money> availableChange, List<Item> availableItems, List<Money> insertedMoney) {
         setup(availableChange, availableItems);
+        this.insertedMoney = insertedMoney;
     }
 
     public Map<Money, Long> availableChange() {
@@ -21,6 +27,14 @@ public class VendingMachine {
     public void setup(List<Money> availableChange, List<Item> availableItems) {
         this.availableChange = availableChange;
         this.availableItems = availableItems;
+    }
+
+    public void insert(Money money) {
+        this.insertedMoney.add(money);
+    }
+
+    public Amount currentAmount() {
+        return new Amount(this.insertedMoney);
     }
 
     private <E> Map<E, Long> Grouped(List<E> elements) {

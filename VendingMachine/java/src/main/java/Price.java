@@ -1,16 +1,17 @@
 import java.util.List;
 
 public class Price {
-    private final List<Money> value;
+    private final Amount amount;
 
     public Price(List<Money> value) {
-        this.value = value;
+        this(new Amount(value));
+    }
+
+    public Price(Amount amount) {
+        this.amount = amount;
     }
 
     public double value() {
-        return this.value
-                .stream()
-                .mapToDouble(Money::value)
-                .sum();
+        return this.amount.value();
     }
 }
