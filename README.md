@@ -13,3 +13,4 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 - [Karate Chops](./KarateChops/)
 - [String Calculator](./StringCalculator/)
 - [Vending Machine](./VendingMachine/)
+- [Bowling Game](./BowlingGame/)

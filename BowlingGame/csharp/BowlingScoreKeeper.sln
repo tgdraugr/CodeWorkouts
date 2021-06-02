@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31313.79
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingScoreKeeper.Tests", "BowlingScoreKeeper.Tests\BowlingScoreKeeper.Tests.csproj", "{F0C10D2F-87CB-4E4F-BFF2-9554BFCB2BA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BowlingScoreKeeper", "BowlingScoreKeeper\BowlingScoreKeeper.csproj", "{C4BD64FE-CB21-4929-8A44-485E3AA235EC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0C10D2F-87CB-4E4F-BFF2-9554BFCB2BA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0C10D2F-87CB-4E4F-BFF2-9554BFCB2BA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0C10D2F-87CB-4E4F-BFF2-9554BFCB2BA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0C10D2F-87CB-4E4F-BFF2-9554BFCB2BA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4BD64FE-CB21-4929-8A44-485E3AA235EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BD64FE-CB21-4929-8A44-485E3AA235EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BD64FE-CB21-4929-8A44-485E3AA235EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BD64FE-CB21-4929-8A44-485E3AA235EC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6877F51C-7A3D-47AB-A2BD-557899F29A0C}
+	EndGlobalSection
+EndGlobal
