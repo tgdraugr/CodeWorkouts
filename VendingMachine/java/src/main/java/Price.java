@@ -11,6 +11,10 @@ public class Price {
         this.amount = amount;
     }
 
+    public List<Money> money() {
+        return this.amount.money();
+    }
+
     public double value() {
         return this.amount.value();
     }

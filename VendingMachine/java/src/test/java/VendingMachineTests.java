@@ -102,7 +102,23 @@ public class VendingMachineTests {
         assertEquals(vendingMachine.currentAmount().value(), 0.0);
     }
 
+    @Test
+    public void shouldAllowItemSelectionWithExactAmount() {
+        var price = new Price(List.of(new Dollar()));
+        var item = newItem("A", price);
+        vendingMachine.setup(List.of(), List.of(item));
+        vendingMachine.insert(new Dollar());
+        var selectedItem = vendingMachine.selectItem("A");
+        assertEquals(item, selectedItem);
+        assertEquals(vendingMachine.availableItems(), Map.of());
+        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 1L));
+    }
+
     private VendingMachine.Item newItemWithDefaultPrice(String selector) {
-        return new VendingMachine.Item(selector, DEFAULT_PRICE);
+        return newItem(selector, DEFAULT_PRICE);
+    }
+
+    private VendingMachine.Item newItem(String selector, Price price) {
+        return new VendingMachine.Item(selector, price);
     }
 }

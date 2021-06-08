@@ -7,6 +7,10 @@ public class Amount {
         this.value = value;
     }
 
+    public List<Money> money() {
+        return this.value;
+    }
+
     public double value() {
         return this.value
                 .stream()

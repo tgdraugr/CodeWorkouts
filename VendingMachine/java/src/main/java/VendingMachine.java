@@ -25,8 +25,8 @@ public class VendingMachine {
     }
 
     public void setup(List<Money> availableChange, List<Item> availableItems) {
-        this.availableChange = availableChange;
-        this.availableItems = availableItems;
+        this.availableChange = new ArrayList<>(availableChange);
+        this.availableItems = new ArrayList<>(availableItems);
     }
 
     public void insert(Money money) {
@@ -41,6 +41,26 @@ public class VendingMachine {
         var amount = new Amount(new ArrayList<>(this.insertedMoney));
         this.insertedMoney.clear();
         return amount;
+    }
+
+    public Item selectItem(String selector) {
+        var selectedItem = item(selector);
+
+        selectedItem.ifPresent(item -> {
+            this.availableChange.addAll(item.price.money());
+            this.availableItems.remove(item);
+        });
+
+        return selectedItem.orElse(null);
+    }
+
+    private Optional<Item> item(String selector) {
+        for (var item : this.availableItems) {
+            if (item.selector.equals(selector)) {
+                return Optional.of(item);
+            }
+        }
+        return Optional.empty();
     }
 
     private <E> Map<E, Long> Grouped(List<E> elements) {
