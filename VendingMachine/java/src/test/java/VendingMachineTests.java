@@ -93,6 +93,15 @@ public class VendingMachineTests {
         assertEquals(vendingMachine.currentAmount().value(), 1.5);
     }
 
+    @Test
+    public void shouldRefundInsertedAmount() {
+        vendingMachine.insert(new Dollar());
+        vendingMachine.insert(new Dollar());
+        var amount = vendingMachine.refund();
+        assertEquals(amount.value(), 2.0);
+        assertEquals(vendingMachine.currentAmount().value(), 0.0);
+    }
+
     private VendingMachine.Item newItemWithDefaultPrice(String selector) {
         return new VendingMachine.Item(selector, DEFAULT_PRICE);
     }

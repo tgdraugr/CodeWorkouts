@@ -37,6 +37,12 @@ public class VendingMachine {
         return new Amount(this.insertedMoney);
     }
 
+    public Amount refund() {
+        var amount = new Amount(new ArrayList<>(this.insertedMoney));
+        this.insertedMoney.clear();
+        return amount;
+    }
+
     private <E> Map<E, Long> Grouped(List<E> elements) {
         return elements
                 .stream()
