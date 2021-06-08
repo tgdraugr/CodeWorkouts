@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,82 +11,86 @@ public class VendingMachineTests {
     private static final Price DEFAULT_PRICE =
             new Price(List.of(new Dollar(), new Quarter(), new Quarter()));
 
+    private VendingMachine vendingMachine;
+
+    @BeforeEach
+    public void beforeEachTest() {
+        vendingMachine = new VendingMachine(List.of(), List.of());
+    }
+
     @Test
-    public void testSetupWhenEmpty() {
-        var vendingMachine = newEmptyVendingMachine();
-        assertEquals(vendingMachine.availableChange(), Map.of());
+    public void shouldNotHaveAvailableItems() {
         assertEquals(vendingMachine.availableItems(), Map.of());
     }
 
     @Test
-    public void testSetupWithSameMoneyAndItems() {
-        List<Money> availableChange = List.of(new Dollar());
-        List<VendingMachine.Item> availableItems = List.of(newItemWithDefaultPrice("A"));
-
-        var vendingMachine = newEmptyVendingMachine();
-        vendingMachine.setup(availableChange, availableItems);
-        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 1L));
-        assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 1L));
-
-        availableChange = List.of(new Dollar(), new Dollar());
-        availableItems = List.of(newItemWithDefaultPrice("A"), newItemWithDefaultPrice("A"));
-
-        vendingMachine.setup(availableChange, availableItems);
-        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 2L));
-        assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 2L));
+    public void shouldNotHaveAvailableChange() {
+        assertEquals(vendingMachine.availableChange(), Map.of());
     }
 
     @Test
-    public void testSetupWithDifferentSortedMoneyAndItems() {
+    public void shouldHaveAvailableChangeWhenSetup() {
+        vendingMachine.setup(List.of(new Dollar()), List.of());
+        assertEquals(vendingMachine.availableChange(), Map.of(new Dollar(), 1L));
+    }
+
+    @Test
+    public void shouldHaveAvailableChangeWhenSetupWithSortedApproach() {
         List<Money> availableChange = List.of(new Dollar(), new Dollar(), new Quarter());
-        List<VendingMachine.Item> availableItems = List.of(
+        vendingMachine.setup(availableChange, List.of());
+        var expectedChange = Map.of(new Dollar(), 2L, new Quarter(), 1L);
+        assertEquals(vendingMachine.availableChange(), expectedChange);
+    }
+
+    @Test
+    public void shouldHaveAvailableChangeWhenSetupWithUnsortedApproach() {
+        List<Money> availableChange = List.of(new Dollar(), new Quarter(), new Dollar());
+        vendingMachine.setup(availableChange, List.of());
+        var expectedChange = Map.of(new Dollar(), 2L, new Quarter(), 1L);
+        assertEquals(vendingMachine.availableChange(), expectedChange);
+    }
+
+    @Test
+    public void shouldHaveAvailableItemsWhenSetup() {
+        var availableItems = List.of(newItemWithDefaultPrice("A"));
+        vendingMachine.setup(List.of(), availableItems);
+        assertEquals(vendingMachine.availableItems(), Map.of(newItemWithDefaultPrice("A"), 1L));
+    }
+
+    @Test
+    public void shouldHaveAvailableItemsWhenSetupWithSortedApproach() {
+        var availableItems = List.of(
                 newItemWithDefaultPrice("A"),
                 newItemWithDefaultPrice("A"),
                 newItemWithDefaultPrice("B"));
-
-        var vendingMachine = newEmptyVendingMachine();
-
-        vendingMachine.setup(availableChange, availableItems);
-        assertEquals(vendingMachine.availableChange(), Map.of(
-                new Dollar(), 2L,
-                new Quarter(), 1L));
-        assertEquals(vendingMachine.availableItems(), Map.of(
+        vendingMachine.setup(List.of(), availableItems);
+        var expectedItems = Map.of(
                 newItemWithDefaultPrice("A"), 2L,
-                newItemWithDefaultPrice("B"), 1L));
+                newItemWithDefaultPrice("B"), 1L);
+        assertEquals(vendingMachine.availableItems(), expectedItems);
     }
 
     @Test
-    public void testSetupWithDifferentUnsortedMoneyAndItems() {
-        var availableChange = List.of(new Quarter(), new Dollar(), new Quarter());
+    public void shouldHaveAvailableItemsWhenSetupWithUnsortedApproach() {
         var availableItems = List.of(
                 newItemWithDefaultPrice("B"),
                 newItemWithDefaultPrice("A"),
                 newItemWithDefaultPrice("B"));
-
-        var vendingMachine = newEmptyVendingMachine();
-
-        vendingMachine.setup(availableChange, availableItems);
-        assertEquals(vendingMachine.availableChange(), Map.of(
-                new Dollar(), 1L,
-                new Quarter(), 2L));
-        assertEquals(vendingMachine.availableItems(), Map.of(
+        vendingMachine.setup(List.of(), availableItems);
+        var expectedItems = Map.of(
                 newItemWithDefaultPrice("A"), 1L,
-                newItemWithDefaultPrice("B"), 2L));
+                newItemWithDefaultPrice("B"), 2L);
+        assertEquals(vendingMachine.availableItems(), expectedItems);
     }
 
     @Test
-    public void testInsertedAmount() {
-        var vendingMachine = newEmptyVendingMachine();
+    public void shouldTrackInsertedAmount() {
         vendingMachine.insert(new Quarter());
         assertEquals(vendingMachine.currentAmount().value(), 0.25);
         vendingMachine.insert(new Quarter());
         assertEquals(vendingMachine.currentAmount().value(), 0.5);
         vendingMachine.insert(new Dollar());
         assertEquals(vendingMachine.currentAmount().value(), 1.5);
-    }
-
-    private VendingMachine newEmptyVendingMachine() {
-        return new VendingMachine(List.of(), List.of());
     }
 
     private VendingMachine.Item newItemWithDefaultPrice(String selector) {
