@@ -9,8 +9,9 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 
 ## Code Workouts Of the Day (CWODs)
 
-- [CQRS Booking](./CQRSBooking/)
-- [Karate Chops](./KarateChops/)
-- [String Calculator](./StringCalculator/)
-- [Vending Machine](./VendingMachine/)
-- [Bowling Game](./BowlingGame/)
+1. [CQRS Booking](./CQRSBooking/)
+1. [Karate Chops](./KarateChops/)
+1. [String Calculator](./StringCalculator/)
+1. [Vending Machine](./VendingMachine/)
+1. [Bowling Game](./BowlingGame/)
+1. [Stats Calculation](./StatsCalculation)
