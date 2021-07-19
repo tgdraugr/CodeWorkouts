@@ -6,13 +6,13 @@ namespace Closest2Zero
 {
     public static class ListExtensions
     {
-        public static int ClosestToZero(this IList<int> numbers) 
+        public static int ClosestToZero(this IList<int> numbers)
         {
-            if (numbers.Count == 0) 
+            if (numbers.Count == 0)
             {
                 throw new InvalidOperationException();
             }
-            
+
             return numbers
                 .OrderBy(number => number)
                 .First(number => number > 0);
@@ -20,31 +20,57 @@ namespace Closest2Zero
 
         public static string ClosestToZero(this IList<string> words)
         {
-            if (words.Count == 0) 
+            if (words.Count == 0)
             {
                 throw new InvalidOperationException();
             }
 
-            var zero = new List<char> { 'z', 'e', 'r', 'o' };
+            // Could be using a 'Chain of responsibilites' pattern.
+            // Where each of the handlers had a condition and a handling of the list.
+            // For such a simple exercise, it is not worth it. Maybe next time.
+            var candidateWords = words
+                .Select((word, index) => new Word(word, index))
+                .WithSameLettersAsZero();
 
-            var possibleWords = new List<string>();
-
-            foreach (var word in words)
+            if (candidateWords.HasSeveralWordsWithSameLength())
             {
-                if (word.IsCloseTo(zero))
-                {
-                    possibleWords.Add(word);
-                }
+                candidateWords = candidateWords
+                    .WithoutWordsOfDifferentLengths()
+                    .OrderByDescending(word => word.Similarity);
             }
 
-            return possibleWords
-                .OrderBy(word => word)
-                .First();
+            if (candidateWords.HasSeveralWordsWithSimilarOrder())
+            {
+                candidateWords = candidateWords.OrderBy(word => word.Index);
+            }
+
+            return $"{candidateWords.First()}";
         }
 
-        private static bool IsCloseTo(this string word, IList<char> baseline)
+        private static IEnumerable<Word> WithSameLettersAsZero(this IEnumerable<Word> words)
         {
-            return word.ToCharArray().All(character => baseline.Contains(character));
+            return words
+                .Where(word => word.ContainsSameLettersAsZero())
+                .OrderBy(word => word.ToString());
+        }
+
+        private static IEnumerable<Word> WithoutWordsOfDifferentLengths(this IEnumerable<Word> words)
+        {
+            var candidate = words.First();
+            var wordsOfDifferentLengths = words.Where(word => word.Length > candidate.Length);
+            return words.Except(wordsOfDifferentLengths);
+        }
+
+        private static bool HasSeveralWordsWithSameLength(this IEnumerable<Word> words) 
+        {
+            var candidate = words.First();
+            return words.Count(word => word.Length == candidate.Length) > 1;
+        }
+
+        private static bool HasSeveralWordsWithSimilarOrder(this IEnumerable<Word> words) 
+        {
+            var candidate = words.First();
+            return words.Count(word => word.Similarity == candidate.Similarity) > 1;
         }
     }
 }

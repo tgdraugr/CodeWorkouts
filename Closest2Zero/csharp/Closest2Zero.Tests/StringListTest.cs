@@ -29,5 +29,19 @@ namespace Closest2Zero.Tests
             var words = new List<string> { "zerooo", "zeor" };
             Assert.True(words.ClosestToZero() == "zeor");
         }
+
+        [Fact]
+        public void ShouldFindTheClosestToZeroByChoosingTheOneWithLettersInTheMostSimilarOrder() 
+        {
+            var words = new List<string> { "eorz", "oezr", "zore" };
+            Assert.True(words.ClosestToZero() == "zore");
+        }
+
+        [Fact]
+        public void ShouldFindTheClosestToZeroByChoosingTheOneThatAppearedFirst() 
+        {
+            var words = new List<string> { "zeor", "zore", "zoree" };
+            Assert.True(words.ClosestToZero() == "zeor");
+        }
     }
 }
