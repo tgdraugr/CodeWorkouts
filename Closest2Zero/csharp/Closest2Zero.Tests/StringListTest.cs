@@ -9,8 +9,25 @@ namespace Closest2Zero.Tests
         [Fact]
         public void ShouldThrowAnExceptionWhenFindingClosestToZero() 
         {
-            List<string> words = new List<string>();
+            var words = new List<string>();
             Assert.Throws<InvalidOperationException>(() => words.ClosestToZero());
+        }
+
+        [Fact]
+        public void ShouldFindTheClosestToZero() 
+        {
+            var words = new List<string> { "zero" };
+            Assert.True(words.ClosestToZero() == "zero");
+
+            words = new List<string> { "ezro" };
+            Assert.True(words.ClosestToZero() == "ezro");
+        }
+
+        [Fact]
+        public void ShouldFindTheClosestToZeroByChoosingTheShortestOne() 
+        {
+            var words = new List<string> { "zerooo", "zeor" };
+            Assert.True(words.ClosestToZero() == "zeor");
         }
     }
 }
