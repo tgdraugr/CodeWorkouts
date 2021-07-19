@@ -20,7 +20,7 @@ namespace Closest2Zero
 
         public static string ClosestToZero(this List<string> words)
         {
-            return null;
+            throw new InvalidOperationException();
         }
     }
 }
