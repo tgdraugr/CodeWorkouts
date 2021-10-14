@@ -17,3 +17,4 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 1. [Stats Calculation](./StatsCalculation)
 1. [Closest to Zero](./Closest2Zero)
 1. [Roman Numerals](./RomanNumerals)
+1. [Ransom Note](./RansomNote)
