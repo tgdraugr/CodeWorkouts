@@ -22,7 +22,7 @@ namespace RansomNote.Tests
             var ransomNote = new RansomNote(magazine, note);
             Assert.True(ransomNote.IsValid);
         }
-        
+
         [Fact]
         public void Should_consider_that_note_can_not_be_formed_due_to_diff_camel_case()
         {
@@ -31,7 +31,7 @@ namespace RansomNote.Tests
             var ransomNote = new RansomNote(magazine, note);
             Assert.False(ransomNote.IsValid);
         }
-        
+
         [Fact]
         public void Should_consider_that_note_can_not_be_formed_due_to_repeated_words()
         {
@@ -40,7 +40,7 @@ namespace RansomNote.Tests
             var ransomNote = new RansomNote(magazine, note);
             Assert.False(ransomNote.IsValid);
         }
-        
+
         [Fact]
         public void Should_consider_that_note_can_not_be_formed_due_to_missing_word()
         {

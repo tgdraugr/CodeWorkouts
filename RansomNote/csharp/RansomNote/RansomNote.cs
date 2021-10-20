@@ -19,8 +19,15 @@ namespace RansomNote
 
         private bool ValidMagazine()
         {
-            return DoesNotContainRepeatedWords() &&
-                   _note.All(word => _magazine.Contains(word));
+            return
+                AreNotEmpty() &&
+                DoesNotContainRepeatedWords() &&
+                _note.All(word => _magazine.Contains(word));
+        }
+
+        private bool AreNotEmpty()
+        {
+            return _note.Count > 0 && _magazine.Count > 0;
         }
 
         private bool DoesNotContainRepeatedWords()
