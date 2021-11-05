@@ -14,28 +14,23 @@ public class TennisGameTests {
     }
 
     @Test public void
-    should_win_the_game_with_four_points_in_total() {
-        scored(FIRST_PLAYER, 4);
+    should_be_won_by_player_with_four_points_in_total() {
+        defineScore(4, 0);
         assertEquals("First Player wins", game.status());
     }
 
     @Test public void
-    should_win_the_game_with_four_points_in_total_and_at_least_two_points_more_than_opponent() {
-        scored(FIRST_PLAYER, 2);
-        scored(SECOND_PLAYER, 5);
+    should_be_won_by_player_with_four_points_in_total_and_at_least_two_points_more_than_opponent() {
+        defineScore(2, 5);
         assertEquals("Second Player wins", game.status());
     }
 
-    private void scored(String player, int score) {
-        for (int i = 0; i < score; i++) {
-            switch (player) {
-                case FIRST_PLAYER:
-                    game.firstPlayerScored();
-                    break;
-                case SECOND_PLAYER:
-                    game.secondPlayerScored();
-                    break;
-            }
+    private void defineScore(int firstPlayerScore, int secondPlayerScore) {
+        for (int i = 0; i < firstPlayerScore; i++) {
+            game.firstPlayerScored();
+        }
+        for (int i = 0; i < secondPlayerScore; i++) {
+            game.secondPlayerScored();
         }
     }
 }

@@ -21,7 +21,7 @@ public class TennisGame {
     }
 
     public String status() {
-        return String.format("%s wins", winner());
+        return winner() + " wins";
     }
 
     private String winner() {
