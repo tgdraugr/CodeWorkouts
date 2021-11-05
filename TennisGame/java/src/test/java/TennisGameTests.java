@@ -41,4 +41,10 @@ public class TennisGameTests {
         game.defineScore(3, 0);
         assertEquals("40,Love", game.status());
     }
+
+    @Test public void
+    should_be_deuce() {
+        game.defineScore(3, 3);
+        assertEquals("Deuce", game.status());
+    }
 }

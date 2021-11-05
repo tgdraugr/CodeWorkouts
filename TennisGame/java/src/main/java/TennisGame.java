@@ -35,7 +35,16 @@ public class TennisGame {
             return highestScoringPlayer() + " wins";
         }
 
+        if (isDeuce()) {
+            return "Deuce";
+        }
+
         return TRANSLATION_PER_SCORE.get(firstPlayerScore) + "," + TRANSLATION_PER_SCORE.get(secondPlayerScore);
+    }
+
+    private boolean isDeuce() {
+        return firstPlayerScore == secondPlayerScore &&
+                atLeast(firstPlayerScore, THREE_POINTS);
     }
 
     private String highestScoringPlayer() {
