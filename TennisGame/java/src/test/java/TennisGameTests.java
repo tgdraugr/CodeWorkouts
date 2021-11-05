@@ -15,22 +15,30 @@ public class TennisGameTests {
 
     @Test public void
     should_be_won_by_player_with_four_points_in_total() {
-        defineScore(4, 0);
+        game.defineScore(4, 0);
         assertEquals("First Player wins", game.status());
     }
 
     @Test public void
     should_be_won_by_player_with_four_points_in_total_and_at_least_two_points_more_than_opponent() {
-        defineScore(2, 5);
+        game.defineScore(2, 5);
         assertEquals("Second Player wins", game.status());
     }
 
-    private void defineScore(int firstPlayerScore, int secondPlayerScore) {
-        for (int i = 0; i < firstPlayerScore; i++) {
-            game.firstPlayerScored();
-        }
-        for (int i = 0; i < secondPlayerScore; i++) {
-            game.secondPlayerScored();
-        }
+    @Test public void
+    should_describe_status_accordingly() {
+        assertEquals("Love,Love", game.status());
+        game.defineScore(0, 1);
+        assertEquals("Love,15", game.status());
+        game.defineScore(0, 2);
+        assertEquals("Love,30", game.status());
+        game.defineScore(0, 3);
+        assertEquals("Love,40", game.status());
+        game.defineScore(1, 0);
+        assertEquals("15,Love", game.status());
+        game.defineScore(2, 0);
+        assertEquals("30,Love", game.status());
+        game.defineScore(3, 0);
+        assertEquals("40,Love", game.status());
     }
 }
