@@ -8,10 +8,10 @@ public class TennisGame {
     public static final int FOUR_POINTS = 4;
 
     private static final Map<Integer, String> TRANSLATION_PER_SCORE = Map.of(
-      NO_POINTS, "Love",
-      ONE_POINT, "15",
-      TWO_POINTS, "30",
-      THREE_POINTS, "40"
+            NO_POINTS, "Love",
+            ONE_POINT, "15",
+            TWO_POINTS, "30",
+            THREE_POINTS, "40"
     );
 
     private final String firstPlayer;
@@ -39,12 +39,21 @@ public class TennisGame {
             return "Deuce";
         }
 
+        if (isAdvantage()) {
+            return "Advantage: " + highestScoringPlayer();
+        }
+
         return TRANSLATION_PER_SCORE.get(firstPlayerScore) + "," + TRANSLATION_PER_SCORE.get(secondPlayerScore);
     }
 
+    private boolean isAdvantage() {
+        return firstPlayerScore >= THREE_POINTS &&
+                secondPlayerScore >= THREE_POINTS &&
+                scoresDiff() == ONE_POINT;
+    }
+
     private boolean isDeuce() {
-        return firstPlayerScore == secondPlayerScore &&
-                atLeast(firstPlayerScore, THREE_POINTS);
+        return firstPlayerScore == secondPlayerScore && firstPlayerScore >= THREE_POINTS;
     }
 
     private String highestScoringPlayer() {
@@ -52,14 +61,10 @@ public class TennisGame {
     }
 
     private boolean hasWinningScore(int score) {
-        return atLeast(score, FOUR_POINTS) && atLeast(scoresDiff(), TWO_POINTS);
+        return score >= FOUR_POINTS && scoresDiff() >= TWO_POINTS;
     }
 
     private int scoresDiff() {
         return Math.abs(firstPlayerScore - secondPlayerScore);
-    }
-
-    private boolean atLeast(int score, int minimum) {
-        return score >= minimum;
     }
 }

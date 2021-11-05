@@ -46,5 +46,19 @@ public class TennisGameTests {
     should_be_deuce() {
         game.defineScore(3, 3);
         assertEquals("Deuce", game.status());
+        game.defineScore(4, 4);
+        assertEquals("Deuce", game.status());
+    }
+
+    @Test public void
+    should_be_in_advantage() {
+        game.defineScore(4, 3);
+        assertEquals("Advantage: First Player", game.status());
+        game.defineScore(3, 4);
+        assertEquals("Advantage: Second Player", game.status());
+        game.defineScore(5, 4);
+        assertEquals("Advantage: First Player", game.status());
+        game.defineScore(4, 5);
+        assertEquals("Advantage: Second Player", game.status());
     }
 }
