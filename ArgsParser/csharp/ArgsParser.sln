@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsParser.App", "ArgsParser.App\ArgsParser.App.csproj", "{B9782F2D-E471-4EEB-BBC5-541C88A53582}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsParser", "ArgsParser\ArgsParser.csproj", "{B9782F2D-E471-4EEB-BBC5-541C88A53582}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArgsParser.Tests", "ArgsParser.Tests\ArgsParser.Tests.csproj", "{AEDA59B3-1F93-4D2C-874A-A939DBAF8EBF}"
 EndProject
