@@ -24,4 +24,13 @@ public class ArgsTest
         args.GetBoolean('x').Should().BeTrue();
         args.GetBoolean('y').Should().BeTrue();
     }
+
+    [Fact]
+    public void Should_correctly_parse_an_integer_argument()
+    {
+        var args = new Args("x%i", new[] { "-x", "1" });
+        args.Parse();
+        args.SchemaHas('x').Should().BeTrue();
+        args.GetInteger('x').Should().Be(1);
+    }
 }

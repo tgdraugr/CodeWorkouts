@@ -6,6 +6,7 @@ public class Args
 
     private readonly Dictionary<char, Type?> _detailedSchema;
     private readonly Dictionary<char, bool> _booleans = new();
+    private readonly Dictionary<char, int> _integers = new();
 
     public Args(string schema, string[] args)
     {
@@ -17,14 +18,27 @@ public class Args
     {
         foreach (var arg in _args)
         {
+            if (IsNotFlag(arg)) 
+                continue;
+            
             var flag = char.Parse(arg[1..]);
-            _booleans[flag] = _detailedSchema.ContainsKey(flag);
+                
+            if (_detailedSchema[flag] == typeof(bool))
+                _booleans[flag] = _detailedSchema.ContainsKey(flag);
+                
+            if (_detailedSchema[flag] == typeof(int))
+                _integers[flag] = int.Parse(_args.Skip(1).First());
         }
     }
 
     public bool GetBoolean(char flag)
     {
         return _booleans.TryGetValue(flag, out var value) && value;
+    }
+
+    public int GetInteger(char flag)
+    {
+        return _integers.TryGetValue(flag, out var value) ? value : 0;
     }
 
     public bool SchemaHas(char flag)
@@ -40,10 +54,19 @@ public class Args
         {
             var head = element[0];
             var tail = element[1..];
-            if (tail == "%b")
-                detailedSchema[head] = typeof(bool);
+            detailedSchema[head] = tail switch
+            {
+                "%b" => typeof(bool),
+                "%i" => typeof(int),
+                _ => detailedSchema[head]
+            };
         }
 
         return detailedSchema;
+    }
+
+    private static bool IsNotFlag(string arg)
+    {
+        return !arg.Contains('-');
     }
 }
