@@ -8,6 +8,7 @@ public class Args
     private readonly Dictionary<char, bool> _booleans = new();
     private readonly Dictionary<char, int> _integers = new();
     private readonly Dictionary<char, string> _strings = new();
+    private readonly Dictionary<char, string[]> _stringLists = new();
 
     public Args(string schema, string[] args)
     {
@@ -19,7 +20,7 @@ public class Args
     {
         foreach (var arg in _args)
         {
-            if (IsNotFlag(arg)) 
+            if (IsNotFlag(arg.Trim())) 
                 continue;
             
             var flag = char.Parse(arg[1..]);
@@ -32,6 +33,9 @@ public class Args
 
             if (_detailedSchema[flag] == typeof(string))
                 _strings[flag] = _args.Skip(1).First();
+            
+            if (_detailedSchema[flag] == typeof(string[]))
+                _stringLists[flag] = _args.Skip(1).First().Split(",");
         }
     }
 
@@ -48,6 +52,11 @@ public class Args
     public string GetString(char flag)
     {
         return _strings.TryGetValue(flag, out var value) ? value : "";
+    }
+    
+    public IEnumerable<string> GetStrings(char flag)
+    {
+        return _stringLists.TryGetValue(flag, out var value) ? value : ArraySegment<string>.Empty;
     }
 
     public bool SchemaHas(char flag)
@@ -68,6 +77,7 @@ public class Args
                 "%b" => typeof(bool),
                 "%i" => typeof(int),
                 "%s" => typeof(string),
+                "[%s]" => typeof(string[]),
                 _ => detailedSchema[head]
             };
         }

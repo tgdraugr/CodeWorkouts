@@ -42,4 +42,13 @@ public class ArgsTest
         args.SchemaHas('x').Should().BeTrue();
         args.GetString('x').Should().Be("Hello, world");
     }
+
+    [Fact]
+    public void Should_correctly_parse_a_string_list_argument()
+    {
+        var args = new Args("x[%s]", new[] { "-x", "Hello,world" });
+        args.Parse();
+        args.SchemaHas('x').Should().BeTrue();
+        args.GetStrings('x').Should().BeEquivalentTo("Hello", "world");
+    }
 }
