@@ -32,6 +32,6 @@ What the schema should look like and how to specify it is deliberately left vagu
 
 ## Comments from those who are working on this Kata
 
-In Robert C. Martin’s book there is a full worked solution written in Java. He mentions in a footnote on page 200 that he has also solved it in Ruby. His Java code is available [here](github.com/unclebob/javaargs/tree/master), and the Ruby version is available [here](github.com/unclebob/rubyargs/tree/master).
+In Robert C. Martin’s book there is a full worked solution written in Java. He mentions in a footnote on page 200 that he has also solved it in Ruby. His Java code is available [here](https://github.com/unclebob/javaargs/tree/master), and the Ruby version is available [here](https://github.com/unclebob/rubyargs/tree/master).
 
 _Adapted from [here](https://codingdojo.org/kata/Args/)_
