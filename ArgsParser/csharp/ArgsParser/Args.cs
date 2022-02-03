@@ -7,6 +7,7 @@ public class Args
     private readonly Dictionary<char, Type?> _detailedSchema;
     private readonly Dictionary<char, bool> _booleans = new();
     private readonly Dictionary<char, int> _integers = new();
+    private readonly Dictionary<char, string> _strings = new();
 
     public Args(string schema, string[] args)
     {
@@ -24,10 +25,13 @@ public class Args
             var flag = char.Parse(arg[1..]);
                 
             if (_detailedSchema[flag] == typeof(bool))
-                _booleans[flag] = _detailedSchema.ContainsKey(flag);
+                _booleans[flag] = true;
                 
             if (_detailedSchema[flag] == typeof(int))
                 _integers[flag] = int.Parse(_args.Skip(1).First());
+
+            if (_detailedSchema[flag] == typeof(string))
+                _strings[flag] = _args.Skip(1).First();
         }
     }
 
@@ -39,6 +43,11 @@ public class Args
     public int GetInteger(char flag)
     {
         return _integers.TryGetValue(flag, out var value) ? value : 0;
+    }
+
+    public string GetString(char flag)
+    {
+        return _strings.TryGetValue(flag, out var value) ? value : "";
     }
 
     public bool SchemaHas(char flag)
@@ -58,6 +67,7 @@ public class Args
             {
                 "%b" => typeof(bool),
                 "%i" => typeof(int),
+                "%s" => typeof(string),
                 _ => detailedSchema[head]
             };
         }
