@@ -15,8 +15,11 @@ public class Args
 
     public void Parse()
     {
-        var flag = char.Parse(_args[0][1..]);
-        _booleans[flag] = _detailedSchema.ContainsKey(flag);
+        foreach (var arg in _args)
+        {
+            var flag = char.Parse(arg[1..]);
+            _booleans[flag] = _detailedSchema.ContainsKey(flag);
+        }
     }
 
     public bool GetBoolean(char flag)
@@ -29,17 +32,18 @@ public class Args
         return _detailedSchema.ContainsKey(flag);
     }
 
-    private static Dictionary<char, Type?> ExtractSchema(string schema)
+    private static Dictionary<char, Type?> ExtractSchema(string schema, string separator = "|")
     {
-        Type? theType = null;
-        var flag = schema[0];
-        var type = schema[1..];
-        if (type == "%b")
-            theType = typeof(bool);
-        
-        return new Dictionary<char, Type?>
+        var detailedSchema = new Dictionary<char, Type?>();
+
+        foreach (var element in schema.Split(separator))
         {
-            { flag, theType }
-        };
+            var head = element[0];
+            var tail = element[1..];
+            if (tail == "%b")
+                detailedSchema[head] = typeof(bool);
+        }
+
+        return detailedSchema;
     }
 }
