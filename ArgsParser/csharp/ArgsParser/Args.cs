@@ -3,16 +3,17 @@
 public class Args
 {
     private readonly string[] _args;
-
+    private readonly HashSet<char> _allFlags;
     private readonly Dictionary<char, Type?> _detailedSchema;
-    private readonly Dictionary<char, bool> _booleans = new();
-    private readonly Dictionary<char, int> _integers = new();
-    private readonly Dictionary<char, string> _strings = new();
-    private readonly Dictionary<char, string[]> _stringLists = new();
+    private readonly Dictionary<char, bool> _booleanValues = new();
+    private readonly Dictionary<char, int> _integerValues = new();
+    private readonly Dictionary<char, string> _stringValues = new();
+    private readonly Dictionary<char, string[]> _stringListValues = new();
 
     public Args(string schema, string[] args)
     {
         _detailedSchema = ExtractSchema(schema);
+        _allFlags = _detailedSchema.Keys.ToHashSet();
         _args = args;
     }
 
@@ -24,47 +25,52 @@ public class Args
             
             if (IsNotFlag(arg)) 
                 continue;
-            
-            var flag = char.Parse(arg[1..]);
-            var next = current + 1;
-            
-            if (_detailedSchema[flag] == typeof(bool))
-                _booleans[flag] = true;
-                
-            if (_detailedSchema[flag] == typeof(int))
-                _integers[flag] = int.Parse(_args[next]);
 
-            if (_detailedSchema[flag] == typeof(string))
-                _strings[flag] = _args[next];
-            
-            if (_detailedSchema[flag] == typeof(string[]))
-                _stringLists[flag] = _args[next].Split(",");
+            var flag = char.Parse(arg[1..]);
+            ParseArgument(flag, current, _detailedSchema[flag]);
         }
+    }
+
+    private void ParseArgument(char flag, int current, Type? flagType)
+    {
+        var next = current + 1;
+
+        if (flagType == typeof(bool))
+            _booleanValues[flag] = true;
+
+        if (flagType == typeof(int))
+            _integerValues[flag] = int.Parse(_args[next]);
+        
+        if (flagType == typeof(string))
+            _stringValues[flag] = _args[next];
+        
+        if (flagType == typeof(string[]))
+            _stringListValues[flag] = _args[next].Split(",");
     }
 
     public bool GetBoolean(char flag)
     {
-        return _booleans.TryGetValue(flag, out var value) && value;
+        return _booleanValues.TryGetValue(flag, out var value) && value;
     }
 
     public int GetInteger(char flag)
     {
-        return _integers.TryGetValue(flag, out var value) ? value : 0;
+        return _integerValues.TryGetValue(flag, out var value) ? value : 0;
     }
 
     public string GetString(char flag)
     {
-        return _strings.TryGetValue(flag, out var value) ? value : "";
+        return _stringValues.TryGetValue(flag, out var value) ? value : "";
     }
     
     public IEnumerable<string> GetStrings(char flag)
     {
-        return _stringLists.TryGetValue(flag, out var value) ? value : ArraySegment<string>.Empty;
+        return _stringListValues.TryGetValue(flag, out var value) ? value : ArraySegment<string>.Empty;
     }
 
     public bool SchemaHas(char flag)
     {
-        return _detailedSchema.ContainsKey(flag);
+        return _allFlags.Contains(flag);
     }
 
     private static Dictionary<char, Type?> ExtractSchema(string schema, string separator = "|")
@@ -90,6 +96,6 @@ public class Args
 
     private static bool IsNotFlag(string arg)
     {
-        return !arg.Contains('-');
+        return arg.Contains('-') is false;
     }
 }
