@@ -18,24 +18,27 @@ public class Args
 
     public void Parse()
     {
-        foreach (var arg in _args)
+        for (var current = 0; current < _args.Length; current++)
         {
-            if (IsNotFlag(arg.Trim())) 
+            var arg = _args[current].Trim();
+            
+            if (IsNotFlag(arg)) 
                 continue;
             
             var flag = char.Parse(arg[1..]);
-                
+            var next = current + 1;
+            
             if (_detailedSchema[flag] == typeof(bool))
                 _booleans[flag] = true;
                 
             if (_detailedSchema[flag] == typeof(int))
-                _integers[flag] = int.Parse(_args.Skip(1).First());
+                _integers[flag] = int.Parse(_args[next]);
 
             if (_detailedSchema[flag] == typeof(string))
-                _strings[flag] = _args.Skip(1).First();
+                _strings[flag] = _args[next];
             
             if (_detailedSchema[flag] == typeof(string[]))
-                _stringLists[flag] = _args.Skip(1).First().Split(",");
+                _stringLists[flag] = _args[next].Split(",");
         }
     }
 

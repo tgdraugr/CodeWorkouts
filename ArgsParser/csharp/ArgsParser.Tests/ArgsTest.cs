@@ -51,4 +51,17 @@ public class ArgsTest
         args.SchemaHas('x').Should().BeTrue();
         args.GetStrings('x').Should().BeEquivalentTo("Hello", "world");
     }
+
+    [Fact]
+    public void Should_parse_several_different_arguments()
+    {
+        var args = new Args("x%b|y%i|z%s", new[] { "-x", "-y", "10", "-z", "Hello" });
+        args.Parse();
+        args.SchemaHas('x').Should().BeTrue();
+        args.SchemaHas('y').Should().BeTrue();
+        args.SchemaHas('z').Should().BeTrue();
+        args.GetBoolean('x').Should().BeTrue();
+        args.GetInteger('y').Should().Be(10);
+        args.GetString('z').Should().Be("Hello");
+    }
 }
