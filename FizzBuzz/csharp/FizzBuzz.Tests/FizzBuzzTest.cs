@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace FizzBuzz.Tests
@@ -14,23 +12,22 @@ namespace FizzBuzz.Tests
             Assert.Equal("1", output);
         }
         
-        [Theory]
-        [MemberData(nameof(MultiplesOf), 3)]
-        public void Should_be_fizz_when_multiple_of_three(int number)
+        [Fact]
+        public void Should_be_fizz_when_multiple_of_three()
         {
             var fizzBuzz = new FizzBuzz();
-            var output = fizzBuzz.DoFizzBuzz(number);
-            Assert.Equal("Fizz", output);
+            Assert.Equal("Fizz", fizzBuzz.DoFizzBuzz(3));
+            Assert.Equal("Fizz", fizzBuzz.DoFizzBuzz(6));
+            Assert.Equal("Fizz", fizzBuzz.DoFizzBuzz(9));
         }
 
-        private static IEnumerable<object[]> MultiplesOf(int multiplier)
+        [Fact]
+        public void Should_be_buzz_when_multiple_of_five()
         {
-            var multiple = multiplier;
-            do
-            {
-                yield return new object[] { multiple };
-                multiple += multiplier;
-            } while (multiple < 100);
+            var fizzBuzz = new FizzBuzz();
+            Assert.Equal("Buzz", fizzBuzz.DoFizzBuzz(5));
+            Assert.Equal("Buzz", fizzBuzz.DoFizzBuzz(10));
+            Assert.Equal("Buzz", fizzBuzz.DoFizzBuzz(20));
         }
     }
 }
