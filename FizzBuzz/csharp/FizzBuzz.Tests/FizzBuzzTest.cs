@@ -6,6 +6,14 @@ namespace FizzBuzz.Tests
 {
     public class FizzBuzzTest
     {
+        [Fact]
+        public void Should_print_number_when_not_multiple_of_either()
+        {
+            var fizzBuzz = new FizzBuzz();
+            var output = fizzBuzz.DoFizzBuzz(1);
+            Assert.Equal("1", output);
+        }
+        
         [Theory]
         [MemberData(nameof(MultiplesOf), 3)]
         public void Should_be_fizz_when_multiple_of_three(int number)
