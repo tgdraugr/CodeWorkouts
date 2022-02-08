@@ -13,5 +13,10 @@ class YearTests {
         assertTrue { isLeapYear(1996) }
     }
 
+    @Test
+    fun shouldBeLeapYearWhenDivisibleBy400() {
+        assertTrue { isLeapYear(1600) }
+    }
+
     private fun isLeapYear(year: Int) = Year(year).isLeapYear()
 }
