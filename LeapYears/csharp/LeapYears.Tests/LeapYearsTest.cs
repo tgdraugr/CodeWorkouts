@@ -11,4 +11,12 @@ public class LeapYearsTest
     {
         Assert.False(Years.IsLeapYear(year));
     }
+
+    [Theory]
+    [InlineData(1996)]
+    [InlineData(1600)]
+    public void Should_be_a_leap_year(int year)
+    {
+        Assert.True(Years.IsLeapYear(year));
+    }
 }
