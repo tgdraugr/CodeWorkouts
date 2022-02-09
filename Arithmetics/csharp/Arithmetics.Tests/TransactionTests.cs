@@ -12,6 +12,12 @@ public class TransactionTests
         EvaluatedTransactionFor("( 1 )").Result.Should().Be(1);
     }
 
+    [Fact]
+    public void Should_evaluate_a_simple_addition_expression()
+    {
+        EvaluatedTransactionFor("( 1 + 1 )").Result.Should().Be(2);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);

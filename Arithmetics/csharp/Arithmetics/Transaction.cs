@@ -20,6 +20,10 @@ public class Transaction
 
     private int EvaluateOperation()
     {
+        if (_tokens.Length > 3)
+        {
+            return Constant(_tokens[1]) + Constant(_tokens[3]);
+        }
         return Constant(_tokens[1]);
     }
 
