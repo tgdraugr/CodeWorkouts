@@ -20,15 +20,34 @@ public class Transaction
 
     private float EvaluateOperation()
     {
-        if (_tokens.Length > 3)
+        return EvaluateExpression(_tokens).Value;
+    }
+
+    private Constant EvaluateExpression(string[] tokens)
+    {
+        if (tokens.Length == 1)
+            return new Constant(tokens[0]);
+        
+        var head = tokens[0];            
+        var closingParenthesisIndex = Array.LastIndexOf(tokens, ")");
+
+        if (closingParenthesisIndex < 0)
         {
-            var @operator = _tokens[2];
-            var firstOperand = new Constant(_tokens[1]);
-            var secondOperand = new Constant(_tokens[3]);
-            var result = ResultFrom(@operator, firstOperand, secondOperand);
-            return result.Value;
+            return ResultFrom(tokens[1], new Constant(tokens[0]), new Constant(tokens[2]));
         }
-        return new Constant(_tokens[1]).Value;
+
+        if (float.TryParse(head, out _))
+        {
+            var remaining = EvaluateExpression(tokens[2..(closingParenthesisIndex+1)]);
+            return ResultFrom(tokens[1], new Constant(head), remaining);
+        }
+
+        if (head == "(")
+        {
+            return EvaluateExpression(tokens[1..closingParenthesisIndex]);
+        }
+        
+        return new Constant("0");
     }
 
     private static Constant ResultFrom(string @operator, Constant first, Constant second)

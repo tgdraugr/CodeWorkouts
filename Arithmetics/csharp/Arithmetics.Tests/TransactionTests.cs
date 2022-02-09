@@ -74,6 +74,12 @@ public class TransactionTests
             .Where(exception => exception.Error == RecordError.BadSyntax);
     }
 
+    [Fact]
+    public void Should_evaluate_addition_of_constant_to_expression()
+    {
+        EvaluatedTransactionFor("( 1 + ( 1 + 1 ) )").Result.Should().Be(3);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);
