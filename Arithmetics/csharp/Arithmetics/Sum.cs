@@ -6,5 +6,11 @@ internal class Sum : MathOperation
         : base(first, second)
     { }
 
-    public override float Result => First.Value + Second.Value;
+    public override float Result => SumResult();
+
+    private float SumResult()
+    {
+        var sum = First + Second;
+        return sum.Value;
+    }
 }

@@ -7,8 +7,15 @@ internal class Constant
         ThrowErrorIfBadSyntax(token);
         Value = float.Parse(token);
     }
+    
+    private Constant(float value)
+    {
+        Value = value;
+    }
 
     public float Value { get; }
+    
+    public static Constant operator +(Constant one, Constant other) => new(one.Value + other.Value);
 
     private static void ThrowErrorIfBadSyntax(string token)
     {
