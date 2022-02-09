@@ -49,9 +49,8 @@ public class Transaction
 
     private static float Divide(string firstOperand, string secondOperand)
     {
-        return secondOperand != "0" ? 
-            Constant(firstOperand) / Constant(secondOperand) : 
-            throw new InvalidRecordException(InvalidRecordException.RecordError.DivisionByZero, "Division is not possible because denominator is 0");
+        var division = new Division(new Constant(firstOperand), new Constant(secondOperand));
+        return division.Result;
     }
 
     private static float Multiply(string firstOperand, string secondOperand)
