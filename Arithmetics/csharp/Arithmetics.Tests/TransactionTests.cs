@@ -53,6 +53,16 @@ public class TransactionTests
             .Where(exception => exception.Error == RecordError.DivisionByZero);
     }
 
+    [Theory]
+    [InlineData("( 2 & 0 )")]
+    [InlineData("( 3 % 0 )")]
+    public void Should_throw_error_on_invalid_operation(string expression)
+    {
+        Action intent = () => EvaluatedTransactionFor(expression);
+        intent.Should().Throw<InvalidRecordException>()
+            .Where(exception => exception.Error == RecordError.InvalidOperation);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);

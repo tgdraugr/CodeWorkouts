@@ -4,7 +4,8 @@ public sealed class InvalidRecordException : Exception
 {
     public enum RecordError
     {
-        DivisionByZero
+        DivisionByZero = 0,
+        InvalidOperation = 1 << 1
     }
     
     public InvalidRecordException(RecordError error, string message) : base(message)
