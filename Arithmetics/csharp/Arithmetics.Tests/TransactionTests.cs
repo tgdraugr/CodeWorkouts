@@ -17,6 +17,12 @@ public class TransactionTests
     {
         EvaluatedTransactionFor("( 1 + 1 )").Result.Should().Be(2);
     }
+    
+    [Fact]
+    public void Should_evaluate_a_simple_subtraction_expression()
+    {
+        EvaluatedTransactionFor("( 2 - 1 )").Result.Should().Be(1);
+    }
 
     private static Transaction EvaluatedTransactionFor(string expression)
     {
