@@ -63,6 +63,17 @@ public class TransactionTests
             .Where(exception => exception.Error == RecordError.InvalidOperation);
     }
 
+    [Theory]
+    [InlineData("( _ )")]
+    [InlineData("( x + 2 )")]
+    [InlineData("( 2 - ? )")]
+    public void Should_throw_error_on_bad_syntax(string expression)
+    {
+        Action intent = () => EvaluatedTransactionFor(expression);
+        intent.Should().Throw<InvalidRecordException>()
+            .Where(exception => exception.Error == RecordError.BadSyntax);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);

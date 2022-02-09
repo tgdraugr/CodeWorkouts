@@ -46,6 +46,8 @@ public class Transaction
 
     private static float Constant(string token)
     {
-        return float.Parse(token);
+        return float.TryParse(token, out var constant) ? 
+            constant : 
+            throw new InvalidRecordException(InvalidRecordException.RecordError.BadSyntax, "Wrong syntax");
     }
 }
