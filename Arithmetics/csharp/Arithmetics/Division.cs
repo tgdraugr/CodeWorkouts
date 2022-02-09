@@ -6,7 +6,5 @@ internal class Division : MathOperation
         base(first, second)
     { }
 
-    public override float Result => Second.Value != 0.0f ? 
-        First.Value / Second.Value: 
-        throw new InvalidRecordException(InvalidRecordException.RecordError.DivisionByZero, "Division is not possible because denominator is 0");
+    public override float Result => (First / Second).Value;
 }
