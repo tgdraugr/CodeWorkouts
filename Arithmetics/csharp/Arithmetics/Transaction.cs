@@ -25,19 +25,19 @@ public class Transaction
             var @operator = _tokens[2];
             var firstOperand = _tokens[1];
             var secondOperand = _tokens[3];
-            return OperationResult(@operator, firstOperand, secondOperand).Value;
+            return OperationResult(@operator, new Constant(firstOperand), new Constant(secondOperand)).Value;
         }
         return new Constant(_tokens[1]).Value;
     }
 
-    private static Constant OperationResult(string @operator, string firstOperand, string secondOperand)
+    private static Constant OperationResult(string @operator, Constant first, Constant second)
     {
         return @operator switch
         {
-            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "+" => first + second,
+            "-" => first - second,
+            "*" => first * second,
+            "/" => first / second,
             _ => ThrowInvalidOperation(@operator)
         };
     }
