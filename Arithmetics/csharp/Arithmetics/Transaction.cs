@@ -37,6 +37,7 @@ public class Transaction
             "+" => Constant(firstOperand) + Constant(secondOperand),
             "-" => Constant(firstOperand) - Constant(secondOperand),
             "*" => Constant(firstOperand) * Constant(secondOperand),
+            "/" => Constant(firstOperand) / Constant(secondOperand),
             _ => 0
         };
     }

@@ -30,6 +30,13 @@ public class TransactionTests
         EvaluatedTransactionFor("( 2 * 2 )").Result.Should().Be(4);
     }
 
+    [Fact]
+    public void Should_evaluate_a_simple_division_expression_when_division_is_exact()
+    {
+        EvaluatedTransactionFor("( 2 / 2 )").Result.Should().Be(1);
+        EvaluatedTransactionFor("( 4 / 2 )").Result.Should().Be(2);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);
