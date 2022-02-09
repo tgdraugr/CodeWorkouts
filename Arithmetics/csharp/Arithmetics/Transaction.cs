@@ -34,10 +34,10 @@ public class Transaction
     {
         return @operator switch
         {
-            "+" => Add(firstOperand, secondOperand),
-            "-" => Subtract(firstOperand, secondOperand),
-            "*" => Multiply(firstOperand, secondOperand),
-            "/" => Divide(firstOperand, secondOperand),
+            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result,
             _ => ThrowInvalidOperation(@operator)
         };
     }
@@ -45,30 +45,6 @@ public class Transaction
     private static float ThrowInvalidOperation(string @operator)
     {
         throw new InvalidRecordException(InvalidRecordException.RecordError.InvalidOperation, $"Expected one of [+, -, *, /] but got {@operator}");
-    }
-
-    private static float Divide(string firstOperand, string secondOperand)
-    {
-        var division = new Division(new Constant(firstOperand), new Constant(secondOperand));
-        return division.Result;
-    }
-
-    private static float Multiply(string firstOperand, string secondOperand)
-    {
-        var multiplication = new Multiplication(new Constant(firstOperand), new Constant(secondOperand));
-        return multiplication.Result;
-    }
-
-    private static float Subtract(string firstOperand, string secondOperand)
-    {
-        var subtractOperation = new Subtraction(new Constant(firstOperand), new Constant(secondOperand));
-        return subtractOperation.Result;
-    }
-
-    private static float Add(string firstOperand, string secondOperand)
-    {
-        var sumOperation = new Sum(new Constant(firstOperand), new Constant(secondOperand));
-        return sumOperation.Result;    
     }
 
     private static float Constant(string token)
