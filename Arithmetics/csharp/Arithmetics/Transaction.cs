@@ -56,7 +56,8 @@ public class Transaction
 
     private static float Multiply(string firstOperand, string secondOperand)
     {
-        return Constant(firstOperand) * Constant(secondOperand);
+        var multiplication = new Multiplication(new Constant(firstOperand), new Constant(secondOperand));
+        return multiplication.Result;
     }
 
     private static float Subtract(string firstOperand, string secondOperand)
