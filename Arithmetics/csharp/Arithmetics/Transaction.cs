@@ -23,14 +23,15 @@ public class Transaction
         if (_tokens.Length > 3)
         {
             var @operator = _tokens[2];
-            var firstOperand = _tokens[1];
-            var secondOperand = _tokens[3];
-            return OperationResult(@operator, new Constant(firstOperand), new Constant(secondOperand)).Value;
+            var firstOperand = new Constant(_tokens[1]);
+            var secondOperand = new Constant(_tokens[3]);
+            var result = ResultFrom(@operator, firstOperand, secondOperand);
+            return result.Value;
         }
         return new Constant(_tokens[1]).Value;
     }
 
-    private static Constant OperationResult(string @operator, Constant first, Constant second)
+    private static Constant ResultFrom(string @operator, Constant first, Constant second)
     {
         return @operator switch
         {
