@@ -12,4 +12,7 @@ internal abstract class MathOperation
     }
 
     public abstract float Result { get; }
+    
+    public abstract Constant Result2 { get; }
+
 }
