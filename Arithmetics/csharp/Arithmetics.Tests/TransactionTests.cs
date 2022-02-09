@@ -24,6 +24,12 @@ public class TransactionTests
         EvaluatedTransactionFor("( 2 - 1 )").Result.Should().Be(1);
     }
 
+    [Fact]
+    public void Should_evaluate_a_simple_multiplication_expression()
+    {
+        EvaluatedTransactionFor("( 2 * 2 )").Result.Should().Be(4);
+    }
+
     private static Transaction EvaluatedTransactionFor(string expression)
     {
         var transaction = new Transaction(expression);
