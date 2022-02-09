@@ -1,5 +1,7 @@
+using System;
 using FluentAssertions;
 using Xunit;
+using RecordError = Arithmetics.InvalidRecordException.RecordError;
 
 namespace Arithmetics.Tests;
 
@@ -41,6 +43,14 @@ public class TransactionTests
     public void Should_evaluate_a_simple_division_expression_when_division_is_not_exact()
     {
         EvaluatedTransactionFor("( 3 / 2 )").Result.Should().Be(1.5f);
+    }
+
+    [Fact]
+    public void Should_throw_error_on_division_by_zero()
+    {
+        Action intent = () => EvaluatedTransactionFor("( 2 / 0 )");
+        intent.Should().Throw<InvalidRecordException>()
+            .Where(exception => exception.Error == RecordError.DivisionByZero);
     }
 
     private static Transaction EvaluatedTransactionFor(string expression)

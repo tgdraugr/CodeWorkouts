@@ -37,7 +37,9 @@ public class Transaction
             "+" => Constant(firstOperand) + Constant(secondOperand),
             "-" => Constant(firstOperand) - Constant(secondOperand),
             "*" => Constant(firstOperand) * Constant(secondOperand),
-            "/" => Constant(firstOperand) / Constant(secondOperand),
+            "/" => secondOperand != "0" ? 
+                Constant(firstOperand) / Constant(secondOperand) : 
+                throw new InvalidRecordException(InvalidRecordException.RecordError.DivisionByZero, "Division is not possible because denominator is 0"),
             _ => 0
         };
     }
