@@ -11,14 +11,14 @@ public class Transaction
         _tokens = expression.Split(Space);
     }
 
-    public int? Result { get; private set; }
+    public float? Result { get; private set; }
 
     public void Evaluate()
     {
         Result = EvaluateOperation();
     }
 
-    private int EvaluateOperation()
+    private float EvaluateOperation()
     {
         if (_tokens.Length > 3)
         {
@@ -30,7 +30,7 @@ public class Transaction
         return Constant(_tokens[1]);
     }
 
-    private int OperationResult(string operation, string firstOperand, string secondOperand)
+    private float OperationResult(string operation, string firstOperand, string secondOperand)
     {
         return operation switch
         {
@@ -42,7 +42,7 @@ public class Transaction
         };
     }
 
-    private int Constant(string token)
+    private float Constant(string token)
     {
         return int.Parse(token);
     }
