@@ -16,6 +16,8 @@ internal class Constant
     public float Value { get; }
     
     public static Constant operator +(Constant one, Constant other) => new(one.Value + other.Value);
+    
+    public static Constant operator -(Constant one, Constant other) => new(one.Value - other.Value);
 
     private static void ThrowErrorIfBadSyntax(string token)
     {

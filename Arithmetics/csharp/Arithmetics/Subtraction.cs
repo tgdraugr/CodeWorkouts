@@ -6,5 +6,5 @@ internal class Subtraction : MathOperation
         : base(first, second)
     { }
 
-    public override float Result => First.Value - Second.Value;
+    public override float Result => (First - Second).Value;
 }
