@@ -34,10 +34,10 @@ public class Transaction
     {
         return @operator switch
         {
-            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result2,
-            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result2,
-            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result2,
-            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result2,
+            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result,
             _ => ThrowInvalidOperation(@operator)
         };
     }

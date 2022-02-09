@@ -6,6 +6,5 @@ internal class Division : MathOperation
         base(first, second)
     { }
 
-    public override float Result => Result2.Value;
-    public override Constant Result2 => First / Second;
+    public override Constant Result => First / Second;
 }
