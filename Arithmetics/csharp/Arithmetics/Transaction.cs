@@ -25,30 +25,26 @@ public class Transaction
             var @operator = _tokens[2];
             var firstOperand = _tokens[1];
             var secondOperand = _tokens[3];
-            return OperationResult(@operator, firstOperand, secondOperand);
+            return OperationResult(@operator, firstOperand, secondOperand).Value;
         }
-        return Constant(_tokens[1]);
+        return new Constant(_tokens[1]).Value;
     }
 
-    private static float OperationResult(string @operator, string firstOperand, string secondOperand)
+    private static Constant OperationResult(string @operator, string firstOperand, string secondOperand)
     {
         return @operator switch
         {
-            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result,
-            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result,
+            "+" => new Sum(new Constant(firstOperand), new Constant(secondOperand)).Result2,
+            "-" => new Subtraction(new Constant(firstOperand), new Constant(secondOperand)).Result2,
+            "*" => new Multiplication(new Constant(firstOperand), new Constant(secondOperand)).Result2,
+            "/" => new Division(new Constant(firstOperand), new Constant(secondOperand)).Result2,
             _ => ThrowInvalidOperation(@operator)
         };
     }
 
-    private static float ThrowInvalidOperation(string @operator)
+    private static Constant ThrowInvalidOperation(string @operator)
     {
-        throw new InvalidRecordException(InvalidRecordException.RecordError.InvalidOperation, $"Expected one of [+, -, *, /] but got {@operator}");
-    }
-
-    private static float Constant(string token)
-    {
-        return new Constant(token).Value;
+        throw new InvalidRecordException(InvalidRecordException.RecordError.InvalidOperation, 
+            $"Expected one of [+, -, *, /] but got {@operator}");
     }
 }
