@@ -66,11 +66,26 @@ public class Transaction
 
     private static float Add(string firstOperand, string secondOperand)
     {
-        return Constant(firstOperand) + Constant(secondOperand);
+        var sumOperation = new SumOperation(new Constant(firstOperand), new Constant(secondOperand));
+        return sumOperation.Value;    
     }
 
     private static float Constant(string token)
     {
         return new Constant(token).Value;
     }
+}
+
+internal class SumOperation
+{
+    private readonly Constant _first;
+    private readonly Constant _second;
+
+    public SumOperation(Constant first, Constant second)
+    {
+        _first = first;
+        _second = second;
+    }
+
+    public float Value => _first.Value + _second.Value;
 }
