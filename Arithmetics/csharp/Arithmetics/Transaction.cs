@@ -30,7 +30,7 @@ public class Transaction
         return Constant(_tokens[1]);
     }
 
-    private float OperationResult(string operation, string firstOperand, string secondOperand)
+    private static float OperationResult(string operation, string firstOperand, string secondOperand)
     {
         return operation switch
         {
@@ -44,8 +44,8 @@ public class Transaction
         };
     }
 
-    private float Constant(string token)
+    private static float Constant(string token)
     {
-        return int.Parse(token);
+        return float.Parse(token);
     }
 }
