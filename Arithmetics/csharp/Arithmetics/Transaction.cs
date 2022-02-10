@@ -1,56 +1,79 @@
 ﻿namespace Arithmetics;
 
+class Tokenizer : List<string>
+{
+    private readonly Queue<string> _tokens;
+
+    public Tokenizer(string[] tokens)
+        : base(tokens)
+    {
+        _tokens = new Queue<string>(tokens);
+    }
+
+    public string NextToken()
+    {
+        return _tokens.Dequeue();
+    }
+    
+    public bool IsFinished() 
+    {
+        return _tokens.Count == 0;
+    }
+}
 public class Transaction
 {
     private const string Space = " ";
-    
-    private readonly string[] _tokens;
-    private static int _currentIndex;
+    private const string OpeningParenthesis = "(";
+    private const string EndingParenthesis = ")";
+
+    private readonly Tokenizer _tokenizer;
 
     public Transaction(string expression)
     {
-        _tokens = expression.Split(Space);
-        _tokens.GetEnumerator();
-        _currentIndex = 0;
+        _tokenizer = new Tokenizer(expression.Split(Space));
     }
 
     public float? Result { get; private set; }
 
     public void Evaluate()
     {
-        Result = EvaluateOperation();
+        Result = EvaluateOperation().Value;
     }
 
-    private float EvaluateOperation()
+    private Constant EvaluateOperation()
     {
-        return EvaluateOperation(_tokens).Value;
+        var value = NextConstant(_tokenizer);
+        
+        if (_tokenizer.IsFinished())
+            return value;
+        
+        var nextToken = _tokenizer.NextToken();
+        if (nextToken == EndingParenthesis)
+            return value;
+        
+        var secondValue = NextConstant(_tokenizer);
+        return ResultFrom(nextToken, value, secondValue);
     }
 
-    private static Constant EvaluateOperation(IReadOnlyList<string> tokens)
+    private static Constant EvaluateOperation(Tokenizer tokens)
     {
         var value = NextConstant(tokens);
-        if (_currentIndex == tokens.Count)
+        
+        if (tokens.IsFinished())
             return value;
 
-        var nextToken = NextToken(tokens);
-        if (nextToken == ")")
+        var nextToken = tokens.NextToken();
+        if (nextToken == EndingParenthesis)
             return value;
 
         var secondValue = NextConstant(tokens);
         return ResultFrom(nextToken, value, secondValue);
     }
     
-    private static Constant NextConstant(IReadOnlyList<string> tokens)
+    private static Constant NextConstant(Tokenizer tokens)
     {
-        var current = NextToken(tokens);
-        return current == "(" ? EvaluateOperation(tokens) : new Constant(current);
-    }
-
-    private static string NextToken(IReadOnlyList<string> tokens)
-    {
-        var token = tokens[_currentIndex];
-        _currentIndex++;
-        return token;
+        var current = tokens.NextToken();
+        return current == OpeningParenthesis ? EvaluateOperation(tokens) : new Constant(current);
     }
 
     private static Constant ResultFrom(string @operator, Constant first, Constant second)
