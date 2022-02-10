@@ -5,10 +5,13 @@ public class Transaction
     private const string Space = " ";
     
     private readonly string[] _tokens;
+    private static int _currentIndex;
 
     public Transaction(string expression)
     {
         _tokens = expression.Split(Space);
+        _tokens.GetEnumerator();
+        _currentIndex = 0;
     }
 
     public float? Result { get; private set; }
@@ -20,34 +23,34 @@ public class Transaction
 
     private float EvaluateOperation()
     {
-        return EvaluateExpression(_tokens).Value;
+        return EvaluateOperation(_tokens).Value;
     }
 
-    private Constant EvaluateExpression(string[] tokens)
+    private static Constant EvaluateOperation(IReadOnlyList<string> tokens)
     {
-        if (tokens.Length == 1)
-            return new Constant(tokens[0]);
-        
-        var head = tokens[0];            
-        var closingParenthesisIndex = Array.LastIndexOf(tokens, ")");
+        var value = NextConstant(tokens);
+        if (_currentIndex == tokens.Count)
+            return value;
 
-        if (closingParenthesisIndex < 0)
-        {
-            return ResultFrom(tokens[1], new Constant(tokens[0]), new Constant(tokens[2]));
-        }
+        var nextToken = NextToken(tokens);
+        if (nextToken == ")")
+            return value;
 
-        if (float.TryParse(head, out _))
-        {
-            var remaining = EvaluateExpression(tokens[2..(closingParenthesisIndex+1)]);
-            return ResultFrom(tokens[1], new Constant(head), remaining);
-        }
+        var secondValue = NextConstant(tokens);
+        return ResultFrom(nextToken, value, secondValue);
+    }
+    
+    private static Constant NextConstant(IReadOnlyList<string> tokens)
+    {
+        var current = NextToken(tokens);
+        return current == "(" ? EvaluateOperation(tokens) : new Constant(current);
+    }
 
-        if (head == "(")
-        {
-            return EvaluateExpression(tokens[1..closingParenthesisIndex]);
-        }
-        
-        return new Constant("0");
+    private static string NextToken(IReadOnlyList<string> tokens)
+    {
+        var token = tokens[_currentIndex];
+        _currentIndex++;
+        return token;
     }
 
     private static Constant ResultFrom(string @operator, Constant first, Constant second)

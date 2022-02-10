@@ -74,10 +74,15 @@ public class TransactionTests
             .Where(exception => exception.Error == RecordError.BadSyntax);
     }
 
-    [Fact]
-    public void Should_evaluate_addition_of_constant_to_expression()
+    [Theory]
+    [InlineData("( 1 + ( 1 + 1 ) )", 3)]
+    [InlineData("( ( 1 + 1 ) + 1 )", 3)]
+    [InlineData("( ( 2 * 2 ) - 3 )", 1)]
+    [InlineData("( ( 2 * 2 ) - ( 4 / 4 ) )", 3)]
+    [InlineData("( 1 + ( ( 2 * 2 ) - ( 4 / 4 ) ) )", 4)]
+    public void Should_evaluate_composed_expressions(string expression, float result)
     {
-        EvaluatedTransactionFor("( 1 + ( 1 + 1 ) )").Result.Should().Be(3);
+        EvaluatedTransactionFor(expression).Result.Should().Be(result);
     }
 
     private static Transaction EvaluatedTransactionFor(string expression)
