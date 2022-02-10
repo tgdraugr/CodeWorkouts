@@ -3,8 +3,6 @@
 public class Transaction
 {
     private const string Space = " ";
-    private const string OpeningParenthesis = "(";
-    private const string EndingParenthesis = ")";
 
     private readonly Tokenizer _tokenizer;
 
@@ -24,20 +22,26 @@ public class Transaction
     {
         var value = NextConstant();
         
-        if (_tokenizer.IsFinished())
+        if (_tokenizer.NoTokensLeft())
             return value;
         
-        var nextToken = _tokenizer.NextToken();
-        if (nextToken == EndingParenthesis)
+        if (_tokenizer.IsNextTokenEndingOperation())
+        {
+            _tokenizer.SkipNext();
             return value;
+        }
         
+        var @operator = _tokenizer.NextToken();
         var secondValue = NextConstant();
-        return Constant.From(nextToken, value, secondValue);
+        return Constant.From(@operator, value, secondValue);
     }
 
     private Constant NextConstant()
     {
-        var token = _tokenizer.NextToken();
-        return token == OpeningParenthesis ? EvaluateOperation() : new Constant(token);
+        if (!_tokenizer.IsNextTokenOpeningOperation()) 
+            return new Constant(_tokenizer.NextToken());
+        
+        _tokenizer.SkipNext();
+        return EvaluateOperation();
     }
 }

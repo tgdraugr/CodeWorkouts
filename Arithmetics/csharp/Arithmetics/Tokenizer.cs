@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿namespace Arithmetics;
 
-namespace Arithmetics;
-
-internal class Tokenizer : IEnumerable<string>
+internal class Tokenizer
 {
+    private const string OpeningParenthesis = "(";
+    private const string EndingParenthesis = ")";
     private readonly Queue<string> _tokens;
 
     public Tokenizer(IEnumerable<string> tokens)
@@ -15,15 +15,24 @@ internal class Tokenizer : IEnumerable<string>
     {
         return _tokens.Dequeue();
     }
-    
-    public bool IsFinished() 
+
+    public void SkipNext()
+    {
+        NextToken();
+    }
+
+    public bool NoTokensLeft() 
     {
         return _tokens.Count == 0;
     }
 
-    public IEnumerator<string> GetEnumerator() =>
-        _tokens.GetEnumerator();
+    public bool IsNextTokenOpeningOperation()
+    {
+        return _tokens.Peek() == OpeningParenthesis;
+    }
 
-    IEnumerator IEnumerable.GetEnumerator() => 
-        GetEnumerator();
+    public bool IsNextTokenEndingOperation()
+    {
+        return _tokens.Peek() == EndingParenthesis;
+    }
 }
