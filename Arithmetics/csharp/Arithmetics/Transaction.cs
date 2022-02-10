@@ -1,25 +1,5 @@
 ﻿namespace Arithmetics;
 
-class Tokenizer : List<string>
-{
-    private readonly Queue<string> _tokens;
-
-    public Tokenizer(string[] tokens)
-        : base(tokens)
-    {
-        _tokens = new Queue<string>(tokens);
-    }
-
-    public string NextToken()
-    {
-        return _tokens.Dequeue();
-    }
-    
-    public bool IsFinished() 
-    {
-        return _tokens.Count == 0;
-    }
-}
 public class Transaction
 {
     private const string Space = " ";
@@ -42,7 +22,7 @@ public class Transaction
 
     private Constant EvaluateOperation()
     {
-        var value = NextConstant(_tokenizer);
+        var value = NextConstant();
         
         if (_tokenizer.IsFinished())
             return value;
@@ -51,29 +31,14 @@ public class Transaction
         if (nextToken == EndingParenthesis)
             return value;
         
-        var secondValue = NextConstant(_tokenizer);
+        var secondValue = NextConstant();
         return ResultFrom(nextToken, value, secondValue);
     }
 
-    private static Constant EvaluateOperation(Tokenizer tokens)
+    private Constant NextConstant()
     {
-        var value = NextConstant(tokens);
-        
-        if (tokens.IsFinished())
-            return value;
-
-        var nextToken = tokens.NextToken();
-        if (nextToken == EndingParenthesis)
-            return value;
-
-        var secondValue = NextConstant(tokens);
-        return ResultFrom(nextToken, value, secondValue);
-    }
-    
-    private static Constant NextConstant(Tokenizer tokens)
-    {
-        var current = tokens.NextToken();
-        return current == OpeningParenthesis ? EvaluateOperation(tokens) : new Constant(current);
+        var token = _tokenizer.NextToken();
+        return token == OpeningParenthesis ? EvaluateOperation() : new Constant(token);
     }
 
     private static Constant ResultFrom(string @operator, Constant first, Constant second)
