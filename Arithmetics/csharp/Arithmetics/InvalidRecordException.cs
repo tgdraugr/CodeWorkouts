@@ -15,9 +15,4 @@ public sealed class InvalidRecordException : Exception
     }
 
     public RecordError Error { get; }
-
-    public override string ToString()
-    {
-        return $"{Error}: {Message}";
-    }
 }
