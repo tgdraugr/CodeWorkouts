@@ -20,25 +20,25 @@ public class Transaction
 
     private Constant EvaluateOperation()
     {
-        var value = NextConstant();
+        var first = NextConstant();
         
         if (_tokenizer.NoTokensLeft())
-            return value;
+            return first;
         
         if (_tokenizer.IsNextTokenEndingOperation())
         {
             _tokenizer.SkipNext();
-            return value;
+            return first;
         }
         
         var @operator = _tokenizer.NextToken();
-        var secondValue = NextConstant();
-        return Constant.From(@operator, value, secondValue);
+        var second = NextConstant();
+        return Constant.From(@operator, first, second);
     }
 
     private Constant NextConstant()
     {
-        if (!_tokenizer.IsNextTokenOpeningOperation()) 
+        if (_tokenizer.IsNextTokenOpeningOperation() is false) 
             return new Constant(_tokenizer.NextToken());
         
         _tokenizer.SkipNext();
