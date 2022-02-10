@@ -32,30 +32,12 @@ public class Transaction
             return value;
         
         var secondValue = NextConstant();
-        return ResultFrom(nextToken, value, secondValue);
+        return Constant.From(nextToken, value, secondValue);
     }
 
     private Constant NextConstant()
     {
         var token = _tokenizer.NextToken();
         return token == OpeningParenthesis ? EvaluateOperation() : new Constant(token);
-    }
-
-    private static Constant ResultFrom(string @operator, Constant first, Constant second)
-    {
-        return @operator switch
-        {
-            "+" => first + second,
-            "-" => first - second,
-            "*" => first * second,
-            "/" => first / second,
-            _ => ThrowInvalidOperation(@operator)
-        };
-    }
-
-    private static Constant ThrowInvalidOperation(string @operator)
-    {
-        throw new InvalidRecordException(InvalidRecordException.RecordError.InvalidOperation, 
-            $"Expected one of [+, -, *, /] but got {@operator}");
     }
 }
