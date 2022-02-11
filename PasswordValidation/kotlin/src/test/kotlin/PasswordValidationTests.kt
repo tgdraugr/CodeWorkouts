@@ -10,7 +10,7 @@ internal class PasswordValidationTests {
 
     @Test
     fun `should register error when password does not contain at least 2 numbers`(){
-        shouldFailWithMessage("!2bCdefg", "The password must contain at least 2 numbers")
+        shouldFailWithMessage("!2bCdefg", "Password must contain at least 2 numbers")
     }
 
     @Test
@@ -26,7 +26,7 @@ internal class PasswordValidationTests {
     @Test
     fun `should handle multiple validation errors`() {
         shouldFailWithMessage("sOm?pas",
-            "Password must be at least 8 characters\nThe password must contain at least 2 numbers")
+            "Password must be at least 8 characters\nPassword must contain at least 2 numbers")
     }
 
     private fun shouldFailWithMessage(password: String, expectedMessage: String) {
