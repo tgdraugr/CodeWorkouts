@@ -5,17 +5,17 @@ internal class PasswordValidationTests {
 
     @Test
     fun `should register error when password is not at least 8 characters long`(){
-        shouldFailWithMessage("1234567", "Password must be at least 8 characters")
+        shouldFailWithMessage("!A34567", "Password must be at least 8 characters")
     }
 
     @Test
     fun `should register error when password does not contain at least 2 numbers`(){
-        shouldFailWithMessage("1abcdefg", "The password must contain at least 2 numbers")
+        shouldFailWithMessage("!2bCdefg", "The password must contain at least 2 numbers")
     }
 
     @Test
     fun `should register error when password does not contain at least 1 capital letter`() {
-        shouldFailWithMessage("12abcdef", "Password must contain at least one capital letter")
+        shouldFailWithMessage("12a!cdef", "Password must contain at least one capital letter")
     }
 
     @Test
@@ -23,9 +23,15 @@ internal class PasswordValidationTests {
         shouldFailWithMessage("12Abcdef", "Password must contain at least one special character")
     }
 
+    @Test
+    fun `should handle multiple validation errors`() {
+        shouldFailWithMessage("sOm?pas",
+            "Password must be at least 8 characters\nThe password must contain at least 2 numbers")
+    }
+
     private fun shouldFailWithMessage(password: String, expectedMessage: String) {
         val result = isValidPassword(password)
-        assertFalse(result.isValid)
-        assertEquals(expectedMessage, result.message)
+        assertFalse(result.valid())
+        assertEquals(expectedMessage, result.message())
     }
 }
