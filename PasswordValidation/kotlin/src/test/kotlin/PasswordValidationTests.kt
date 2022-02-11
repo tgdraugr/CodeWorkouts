@@ -18,6 +18,11 @@ internal class PasswordValidationTests {
         shouldFailWithMessage("12abcdef", "Password must contain at least one capital letter")
     }
 
+    @Test
+    fun `should register error when password does not contain at least one special character`() {
+        shouldFailWithMessage("12Abcdef", "Password must contain at least one special character")
+    }
+
     private fun shouldFailWithMessage(password: String, expectedMessage: String) {
         val result = isValidPassword(password)
         assertFalse(result.isValid)

@@ -8,6 +8,9 @@ fun isValidPassword(password: String): ValidationResult {
     if (doesNotContainAtLeast1CapitalLetter(password))
         return ValidationResult(false, ValidationResult.AT_LEAST_1_CAPITAL_LETTER_MESSAGE)
 
+    if (password.none { !it.isLetterOrDigit() })
+        return ValidationResult(false, "Password must contain at least one special character")
+
     return ValidationResult()
 }
 
