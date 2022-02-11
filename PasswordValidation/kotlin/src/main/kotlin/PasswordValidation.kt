@@ -1,6 +1,6 @@
 import java.util.*
 
-fun isValidPassword(password: String): PasswordValidation {
+fun isValidPassword(password: String): ValidationResult {
     val result = PasswordValidation()
 
     if (password.length < PasswordValidation.MIN_TOTAL_CHARACTERS) {
@@ -22,7 +22,7 @@ fun isValidPassword(password: String): PasswordValidation {
     return result
 }
 
-class PasswordValidation {
+internal class PasswordValidation : ValidationResult {
 
     companion object {
         const val MIN_TOTAL_CHARACTERS = 8
@@ -32,11 +32,11 @@ class PasswordValidation {
 
     private val messages: LinkedList<String> = LinkedList()
 
-    fun message() : String {
+    override fun message() : String {
         return messages.joinToString(separator = "\n")
     }
 
-    fun valid() : Boolean {
+    override fun valid() : Boolean {
         return messages.isEmpty()
     }
 
