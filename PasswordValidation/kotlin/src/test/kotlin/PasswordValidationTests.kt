@@ -25,8 +25,13 @@ internal class PasswordValidationTests {
 
     @Test
     fun `should handle multiple validation errors`() {
-        shouldFailWithMessage("sOm?pas",
+        shouldFailWithMessage("sOm?p1s",
             "Password must be at least 8 characters\nPassword must contain at least 2 numbers")
+    }
+
+    @Test
+    fun `should be valid`() {
+        assertTrue(isValidPassword("s0m?pa5X").valid())
     }
 
     private fun shouldFailWithMessage(password: String, expectedMessage: String) {
