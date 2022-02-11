@@ -23,3 +23,4 @@ Karate is not that familiar to me, but CrossFit&copy; is. In this modality, ther
 1. [Fizz Buzz](./FizzBuzz)
 1. [Leap Years](./LeapYears/)
 1. [Arithmetics](./Arithmetics)
+1. [Password Validation](./PasswordValidation)
