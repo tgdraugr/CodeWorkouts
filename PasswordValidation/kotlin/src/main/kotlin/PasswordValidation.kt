@@ -5,6 +5,9 @@ fun isValidPassword(password: String): ValidationResult {
     if (doesNotContainAtLeast2Numbers(password))
         return ValidationResult(false, ValidationResult.AT_LEAST_2_NUMBERS_MESSAGE)
 
+    if (password.chars().filter(Character::isUpperCase).count() < 1)
+        return ValidationResult(false, "Password must contain at least one capital letter");
+
     return ValidationResult()
 }
 
