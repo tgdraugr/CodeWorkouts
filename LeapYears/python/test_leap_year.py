@@ -11,3 +11,6 @@ def test_should_be_a_leap_year_when_divisible_by_4():
 
 def test_should_be_a_leap_year_when_divisible_by_400():
     assert leap_year.is_leap_year(1600)
+
+def test_should_not_be_leap_year_when_divisible_by_4_and_100_but_not_400():
+    assert not leap_year.is_leap_year(1800)
