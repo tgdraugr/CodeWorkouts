@@ -2,7 +2,7 @@
 
 namespace RomanNumerals.Tests
 {
-    class RomanNumerals
+    internal static class RomanNumerals
     {
         private static readonly IDictionary<int, string> ArabicToRoman =
             new Dictionary<int, string>
@@ -25,14 +25,14 @@ namespace RomanNumerals.Tests
 
         public static string Convert(int amount)
         {
-            string result = "";
+            var result = "";
             
-            foreach(var item in ArabicToRoman)
+            foreach(var (romanNumeral, arabicNumeral) in ArabicToRoman)
             {
-                while (amount >= item.Key)
+                while (amount >= romanNumeral)
                 {
-                    result += item.Value;
-                    amount -= item.Key;
+                    result += arabicNumeral;
+                    amount -= romanNumeral;
                 }
             }
 
