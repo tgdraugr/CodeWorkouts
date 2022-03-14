@@ -13,4 +13,10 @@ public class LeapYearTests {
         var year = new Year(1996);
         assertTrue(year.isLeap());
     }
+
+    @Test
+    public void shouldBeLeapYearIfDivisibleBy400() {
+        var year = new Year(1600);
+        assertTrue(year.isLeap());
+    }
 }
