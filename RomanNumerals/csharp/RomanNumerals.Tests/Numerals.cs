@@ -23,14 +23,9 @@ namespace RomanNumerals.Tests
                 { 1, "I" }
             };
 
-        private static readonly IDictionary<string, int> RomanToArabic;
-
-        static Numerals()
-        {
-            RomanToArabic = ArabicToRoman.ToDictionary(entry => entry.Value, entry => entry.Key);
-            RomanToArabic.Add("", 0);
-        }
-
+        private static readonly IDictionary<string, int> RomanToArabic = 
+            ArabicToRoman.ToDictionary(entry => entry.Value, entry => entry.Key);
+        
         public static string ConvertToArabic(int amount)
         {
             var result = "";
