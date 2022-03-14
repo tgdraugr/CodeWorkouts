@@ -24,13 +24,13 @@ namespace RomanNumerals.Tests
             };
 
         private static readonly IDictionary<string, int> RomanToArabic;
-        
+
         static Numerals()
         {
             RomanToArabic = ArabicToRoman.ToDictionary(entry => entry.Value, entry => entry.Key);
             RomanToArabic.Add("", 0);
         }
-        
+
         public static string ConvertToArabic(int amount)
         {
             var result = "";
@@ -55,9 +55,11 @@ namespace RomanNumerals.Tests
 
             for (var index = 0; index < arabicNumerals.Length; index+=2)
             {
-                var left = arabicNumerals[index];
-                var right = arabicNumerals[index + 1]; 
-                result += ComputeValue(left, right);
+                var left = RomanToArabic[arabicNumerals[index]];
+                var right = RomanToArabic[arabicNumerals[index + 1]];
+                result += left < right ? 
+                    right - left : 
+                    left + right;
             }
 
             return result;
@@ -69,14 +71,6 @@ namespace RomanNumerals.Tests
             return arabicNumeral.Length % 2 == 0 ? 
                 numerals.ToArray() : 
                 numerals.Concat(new[] { "" }).ToArray();
-        }
-
-        private static int ComputeValue(string left, string right)
-        {
-            if (RomanToArabic[left] < RomanToArabic[right])
-                return RomanToArabic[right] - RomanToArabic[left];
-            
-            return RomanToArabic[left] + RomanToArabic[right];
         }
     }
 }
