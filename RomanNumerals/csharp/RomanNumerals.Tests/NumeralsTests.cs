@@ -36,5 +36,13 @@ namespace RomanNumerals.Tests
         {
             Assert.True(Numerals.ConvertToArabic(amount) == expected);
         }
+
+        [Theory]
+        [InlineData("", 0)]
+        [InlineData("I", 1)]
+        public void Should_convert_arabic_to_roman_numerals(string arabic, int expected)
+        {
+            Assert.True(Numerals.ConvertToRoman(arabic) == expected);
+        }
     }
 }

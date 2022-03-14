@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RomanNumerals.Tests
 {
@@ -37,6 +38,17 @@ namespace RomanNumerals.Tests
             }
 
             return result;
+        }
+
+        public static int ConvertToRoman(string arabicNumeral)
+        {
+            foreach (var (roman, arabic) in ArabicToRoman.Reverse())
+            {
+                if (arabic == arabicNumeral)
+                    return roman;
+            }
+
+            return 0;
         }
     }
 }
