@@ -23,7 +23,9 @@ namespace RomanNumerals.Tests
                 { 1, "I" }
             };
 
-
+        private static readonly IDictionary<string, int> RomanToArabic = 
+            ArabicToRoman.ToDictionary(entry => entry.Value, entry => entry.Key);
+        
         public static string ConvertToArabic(int amount)
         {
             var result = "";
@@ -42,13 +44,19 @@ namespace RomanNumerals.Tests
 
         public static int ConvertToRoman(string arabicNumeral)
         {
-            foreach (var (roman, arabic) in ArabicToRoman.Reverse())
+            return ConvertToRoman(arabicNumeral.Select(numeral => numeral.ToString()));
+        }
+
+        private static int ConvertToRoman(IEnumerable<string> arabicNumerals)
+        {
+            var result = 0;
+            
+            foreach (var arabicNumeral in arabicNumerals)
             {
-                if (arabic == arabicNumeral)
-                    return roman;
+                result += RomanToArabic[arabicNumeral];
             }
 
-            return 0;
+            return result;
         }
     }
 }

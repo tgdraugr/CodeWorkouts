@@ -40,6 +40,7 @@ namespace RomanNumerals.Tests
         [Theory]
         [InlineData("", 0)]
         [InlineData("I", 1)]
+        [InlineData("II", 2)]
         public void Should_convert_arabic_to_roman_numerals(string arabic, int expected)
         {
             Assert.Equal(expected, Numerals.ConvertToRoman(arabic));
