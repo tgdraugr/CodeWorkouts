@@ -7,4 +7,10 @@ public class LeapYearTests {
         var year = new Year(1997);
         assertFalse(year.isLeap());
     }
+
+    @Test
+    public void shouldBeLeapYearIfDivisibleBy4() {
+        var year = new Year(1996);
+        assertTrue(year.isLeap());
+    }
 }
