@@ -51,16 +51,12 @@ namespace RomanNumerals.Tests
         {
             if (string.IsNullOrEmpty(arabicNumeral))
                 return 0;
-            
-            var numerals = arabicNumeral
-                .Select(numeral => numeral.ToString())
-                .ToList();
 
-            var result = RomanToArabic[numerals[^1]];
-            for (var index = 0; index < numerals.Count - 1; index++)
+            var result = RomanToArabic[arabicNumeral[^1].ToString()];
+            for (var index = 0; index < arabicNumeral.Length - 1; index++)
             {
-                var current = RomanToArabic[numerals[index]];
-                var next = RomanToArabic[numerals[index + 1]];
+                var current = RomanToArabic[arabicNumeral[index].ToString()];
+                var next = RomanToArabic[arabicNumeral[index + 1].ToString()];
                 result += current < next ? -current : current;
             }
             
