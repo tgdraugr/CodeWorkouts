@@ -49,6 +49,12 @@ namespace RomanNumerals.Tests
         [InlineData("VIII", 8)]
         [InlineData("IX", 9)]
         [InlineData("X", 10)]
+        [InlineData("MCMXLIV", 1944)]
+        [InlineData("MMVI", 2006)]
+        [InlineData("XXIX", 29)]
+        [InlineData("LXXX", 80)]
+        [InlineData("CCXCIV", 294)]
+        [InlineData("MMXIX", 2019)]
         public void Should_convert_arabic_to_roman_numerals(string arabic, int expected)
         {
             Assert.Equal(expected, Numerals.ConvertToRoman(arabic));

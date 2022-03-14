@@ -49,28 +49,24 @@ namespace RomanNumerals.Tests
 
         public static int ConvertToRoman(string arabicNumeral)
         {
-            var result = 0;
+            var numerals =
+                arabicNumeral.Select(numeral => numeral.ToString()).ToList();
 
-            var arabicNumerals = GetArabicNumerals(arabicNumeral);
+            return numerals.Count() % 2 == 0 ? 
+                ComputeRomanNumeral(numerals.ToList(),  0) : 
+                ComputeRomanNumeral(numerals.Skip(1).ToList(), RomanToArabic[numerals.FirstOrDefault()!]);
+        }
 
-            for (var index = 0; index < arabicNumerals.Length; index+=2)
+        private static int ComputeRomanNumeral(IReadOnlyList<string> arabicNumerals, int result)
+        {
+            for (var index = 0; index < arabicNumerals.Count; index += 2)
             {
                 var left = RomanToArabic[arabicNumerals[index]];
                 var right = RomanToArabic[arabicNumerals[index + 1]];
-                result += left < right ? 
-                    right - left : 
-                    left + right;
+                result += left < right ? right - left : left + right;
             }
 
             return result;
-        }
-
-        private static string[] GetArabicNumerals(string arabicNumeral)
-        {
-            var numerals = arabicNumeral.Select(numeral => numeral.ToString());
-            return arabicNumeral.Length % 2 == 0 ? 
-                numerals.ToArray() : 
-                numerals.Concat(new[] { "" }).ToArray();
         }
     }
 }
