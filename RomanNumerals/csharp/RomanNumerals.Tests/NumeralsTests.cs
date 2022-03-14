@@ -55,6 +55,7 @@ namespace RomanNumerals.Tests
         [InlineData("LXXX", 80)]
         [InlineData("CCXCIV", 294)]
         [InlineData("MMXIX", 2019)]
+        [InlineData("MCMIII", 1903)]
         public void Should_convert_arabic_to_roman_numerals(string arabic, int expected)
         {
             Assert.Equal(expected, Numerals.ConvertToRoman(arabic));
