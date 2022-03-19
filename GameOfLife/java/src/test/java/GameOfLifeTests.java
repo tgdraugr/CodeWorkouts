@@ -2,12 +2,30 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class GameOfLifeTests {
-    @Test
-    public void
+
+    @Test public void
     should_generate_empty_board_when_an_empty_board_is_provided() {
         var emptyBoard = new boolean[][] {};
-        var game = new GameOfLife(emptyBoard);
+        assertEquals(emptyBoard, nextGenerationBoard(emptyBoard));
+    }
+
+    @Test public void
+    should_generate_all_dead_cell_board_when_a_board_of_single_dead_cell_is_provided() {
+        var board = new boolean[][] {
+          new boolean[] {false}
+        };
+        assertSameBoards(board, nextGenerationBoard(board));
+    }
+
+    private void assertSameBoards(boolean[][] expected, boolean[][] actual) {
+        for (int row = 0; row < expected.length; row++) {
+            assertArrayEquals(expected[row], actual[row]);
+        }
+    }
+
+    private boolean[][] nextGenerationBoard(boolean[][] board) {
+        var game = new GameOfLife(board);
         game.nextGen();
-        assertEquals(emptyBoard, game.getBoard());
+        return game.getBoard();
     }
 }
