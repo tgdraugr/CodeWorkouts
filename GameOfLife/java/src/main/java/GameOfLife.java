@@ -1,4 +1,8 @@
 public class GameOfLife {
+
+    public static final boolean DEAD_CELL = false;
+    public static final boolean LIVE_CELL = true;
+
     private final boolean[][] board;
 
     public GameOfLife(boolean[][] board) {
@@ -6,13 +10,25 @@ public class GameOfLife {
     }
 
     public void nextGen() {
-        if (this.board.length == 0)
-            return;
-
-        boolean alive = this.board[0][0];
-        if (alive) {
-            this.board[0][0] = false;
+        for (int row = 0; row < this.board.length; row++) {
+            for (int col = 0; col < this.board[row].length; col++) {
+                this.board[row][col] = nextCellState(row, col);
+            }
         }
+    }
+
+    private boolean nextCellState(int row, int col) {
+        var totalNeighbors = totalAliveNeighbors(row, col);
+
+        if (totalNeighbors < 2) {
+            return DEAD_CELL;
+        }
+
+        return this.board[row][col];
+    }
+
+    private int totalAliveNeighbors(int row, int col) {
+        return 1;
     }
 
     public boolean[][] getBoard() {
