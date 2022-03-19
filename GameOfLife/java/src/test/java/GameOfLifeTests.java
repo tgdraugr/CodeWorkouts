@@ -17,7 +17,7 @@ public class GameOfLifeTests {
         var board = new boolean[][] {
             new boolean[] {DEAD_CELL}
         };
-        assertSameBoards(board, nextGenerationBoard(board));
+        assertFalse(nextGenerationBoard(board)[0][0]);
     }
 
     @Test public void
@@ -25,12 +25,7 @@ public class GameOfLifeTests {
         var board = new boolean[][] {
             new boolean[] {LIVE_CELL}
         };
-
-        var expected = new boolean[][] {
-            new boolean[] {DEAD_CELL}
-        };
-
-        assertSameBoards(expected, nextGenerationBoard(board));
+        assertFalse(nextGenerationBoard(board)[0][0]);
     }
 
     @Test public void
@@ -40,31 +35,17 @@ public class GameOfLifeTests {
             new boolean[] { DEAD_CELL, LIVE_CELL, DEAD_CELL },
             new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL }
         };
-
-        var expected = new boolean[][] {
-            new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL },
-            new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL },
-            new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL }
-        };
-
-        assertSameBoards(expected, nextGenerationBoard(board));
+        assertFalse(nextGenerationBoard(board)[1][1]);
     }
 
     @Test public void
     should_generate_board_where_cells_survive_when_a_living_cell_has_two_or_three_neighbors() {
         var board = new boolean[][] {
-                new boolean[] { DEAD_CELL, LIVE_CELL, LIVE_CELL },
-                new boolean[] { DEAD_CELL, LIVE_CELL, LIVE_CELL },
-                new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL }
+            new boolean[] { DEAD_CELL, LIVE_CELL, LIVE_CELL },
+            new boolean[] { DEAD_CELL, LIVE_CELL, LIVE_CELL },
+            new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL }
         };
-
-        assertSameBoards(board, nextGenerationBoard(board));
-    }
-
-    private void assertSameBoards(boolean[][] expected, boolean[][] actual) {
-        for (int row = 0; row < expected.length; row++) {
-            assertArrayEquals(expected[row], actual[row]);
-        }
+        assertTrue(nextGenerationBoard(board)[1][1]);
     }
 
     private boolean[][] nextGenerationBoard(boolean[][] board) {
