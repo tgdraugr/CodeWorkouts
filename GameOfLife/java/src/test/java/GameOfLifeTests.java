@@ -12,9 +12,22 @@ public class GameOfLifeTests {
     @Test public void
     should_generate_all_dead_cell_board_when_a_board_of_single_dead_cell_is_provided() {
         var board = new boolean[][] {
-          new boolean[] {false}
+            new boolean[] {false}
         };
         assertSameBoards(board, nextGenerationBoard(board));
+    }
+
+    @Test public void
+    should_generate_all_dead_cell_board_when_a_board_of_a_single_live_cell_is_provided() {
+        var board = new boolean[][] {
+            new boolean[] {true}
+        };
+
+        var expected = new boolean[][] {
+            new boolean[] {false}
+        };
+
+        assertSameBoards(expected, nextGenerationBoard(board));
     }
 
     private void assertSameBoards(boolean[][] expected, boolean[][] actual) {
