@@ -20,10 +20,8 @@ public class GameOfLife {
     private boolean nextCellState(int row, int col) {
         var totalAliveNeighbors = totalAliveNeighbors(row, col);
 
-        if (totalAliveNeighbors < 2) {
+        if (totalAliveNeighbors < 2 || totalAliveNeighbors > 3) {
             return DEAD_CELL;
-        } else if (totalAliveNeighbors == 2 || totalAliveNeighbors == 3) {
-            return this.board[row][col];
         }
 
         return this.board[row][col];

@@ -48,6 +48,16 @@ public class GameOfLifeTests {
         assertTrue(nextGenerationBoard(board)[1][1]);
     }
 
+    @Test public void
+    should_generate_board_where_cells_die_when_a_living_cell_has_more_then_three_neighbors() {
+        var board = new boolean[][] {
+            new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL },
+            new boolean[] { DEAD_CELL, LIVE_CELL, LIVE_CELL },
+            new boolean[] { LIVE_CELL, LIVE_CELL, LIVE_CELL }
+        };
+        assertFalse(nextGenerationBoard(board)[1][1]);
+    }
+
     private boolean[][] nextGenerationBoard(boolean[][] board) {
         var game = new GameOfLife(board);
         game.nextGen();
