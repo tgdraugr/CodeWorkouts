@@ -51,6 +51,6 @@ public class GameOfLifeTests {
     private boolean[][] nextGenerationBoard(boolean[][] board) {
         var game = new GameOfLife(board);
         game.nextGen();
-        return game.getBoard();
+        return board;
     }
 }

@@ -50,10 +50,6 @@ public class GameOfLife {
         return total;
     }
 
-    public boolean[][] getBoard() {
-        return this.board;
-    }
-
     private class Neighbor {
         private final int x;
         private final int y;
