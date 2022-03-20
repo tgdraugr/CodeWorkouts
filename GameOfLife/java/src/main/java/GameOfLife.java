@@ -18,20 +18,61 @@ public class GameOfLife {
     }
 
     private boolean nextCellState(int row, int col) {
-        var totalNeighbors = totalAliveNeighbors(row, col);
+        var totalAliveNeighbors = totalAliveNeighbors(row, col);
 
-        if (totalNeighbors < 2) {
+        if (totalAliveNeighbors < 2) {
             return DEAD_CELL;
+        } else if (totalAliveNeighbors == 2 || totalAliveNeighbors == 3) {
+            return this.board[row][col];
         }
 
         return this.board[row][col];
     }
 
     private int totalAliveNeighbors(int row, int col) {
-        return 1;
+        var neighbors = new Neighbor[] {
+            new Neighbor(row - 1, col),
+            new Neighbor(row - 1, col + 1),
+            new Neighbor(row, col + 1),
+            new Neighbor(row + 1, col + 1),
+            new Neighbor(row + 1, col),
+            new Neighbor(row + 1, col - 1),
+            new Neighbor(row, col - 1),
+            new Neighbor(row - 1, col - 1),
+        };
+
+        var total = 0;
+
+        for (var neighbor : neighbors) {
+            total += neighbor.weight();
+        }
+
+        return total;
     }
 
     public boolean[][] getBoard() {
         return this.board;
+    }
+
+    private class Neighbor {
+        private final int x;
+        private final int y;
+
+        public Neighbor(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int weight() {
+            return alive() ? 1 : 0;
+        }
+
+        private boolean alive() {
+            return inBounds() && board[x][y];
+        }
+
+        private boolean inBounds() {
+            return this.x >= 0 && this.x < board.length && this.y >= 0 && this.y < board[x].length;
+        }
     }
 }
