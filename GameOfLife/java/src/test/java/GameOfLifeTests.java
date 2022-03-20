@@ -29,7 +29,7 @@ public class GameOfLifeTests {
     }
 
     @Test public void
-    should_generate_board_where_cells_die_when_a_cell_has_less_than_2_neighbors() {
+    should_generate_board_where_cells_die_when_a_cell_has_less_than_two_neighbors() {
         var board = new boolean[][] {
             new boolean[] { DEAD_CELL, DEAD_CELL, DEAD_CELL },
             new boolean[] { DEAD_CELL, LIVE_CELL, DEAD_CELL },
@@ -56,6 +56,16 @@ public class GameOfLifeTests {
             new boolean[] { LIVE_CELL, LIVE_CELL, LIVE_CELL }
         };
         assertFalse(nextGenerationBoard(board)[1][1]);
+    }
+
+    @Test public void
+    should_generate_board_where_cells_become_alive_when_dead_cell_has_exactly_three_neighbors() {
+        var board = new boolean[][] {
+            new boolean[] { DEAD_CELL, DEAD_CELL, LIVE_CELL },
+            new boolean[] { DEAD_CELL, DEAD_CELL, LIVE_CELL },
+            new boolean[] { DEAD_CELL, DEAD_CELL, LIVE_CELL }
+        };
+        assertTrue(nextGenerationBoard(board)[1][1]);
     }
 
     private boolean[][] nextGenerationBoard(boolean[][] board) {
