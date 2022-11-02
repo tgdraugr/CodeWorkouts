@@ -23,6 +23,13 @@ func TestDivisibility(t *testing.T) {
 			assertLeapYearIsTrue(t, param, false)
 		}
 	})
+
+	t.Run("Should not be leap year if it is divisible by 100 but not by 400", func(t *testing.T) {
+		testCaseParams := []int{1700, 1800, 1900, 2100}
+		for _, param := range testCaseParams {
+			assertLeapYearIsTrue(t, param, false)
+		}
+	})
 }
 
 func assertLeapYearIsTrue(t *testing.T, year int, expected bool) {
