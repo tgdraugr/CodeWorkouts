@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestDivisibility(t *testing.T) {
+func TestLeapYear(t *testing.T) {
 	t.Run("Should be leap year when year is divisible by 400", func(t *testing.T) {
 		assertLeapYear(t, 2000, true)
 	})
@@ -16,8 +16,10 @@ func TestDivisibility(t *testing.T) {
 			assertLeapYear(t, param, true)
 		}
 	})
+}
 
-	t.Run(" Should not be leap year if it is not divisible by 4", func(t *testing.T) {
+func TestNotLeapYear(t *testing.T) {
+	t.Run("Should not be leap year if it is not divisible by 4", func(t *testing.T) {
 		testCaseParams := []int{2017, 2018, 2019}
 		for _, param := range testCaseParams {
 			assertLeapYear(t, param, false)
