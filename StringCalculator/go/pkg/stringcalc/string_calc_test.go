@@ -6,20 +6,19 @@ import (
 )
 
 func TestAddsUpToTwoNumbers(t *testing.T) {
-	want := 0
-	got := stringcalc.Add("")
-	if want != got {
-		t.Errorf("Should be %d but instead got %d", want, got)
+	tests := []struct {
+		expr string
+		want int
+	}{
+		{"", 0}, {"1", 1}, {"1,2", 3},
 	}
 
-	want = 1
-	got = stringcalc.Add("1")
-	if want != got {
-		t.Errorf("Should be %d but instead got %d", want, got)
+	for _, tt := range tests {
+		assertStringCalcResult(t, tt.want, stringcalc.Add(tt.expr))
 	}
+}
 
-	want = 3
-	got = stringcalc.Add("1,2")
+func assertStringCalcResult(t *testing.T, want, got int) {
 	if want != got {
 		t.Errorf("Should be %d but instead got %d", want, got)
 	}
