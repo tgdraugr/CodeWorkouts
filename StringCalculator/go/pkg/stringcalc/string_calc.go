@@ -6,33 +6,19 @@ import (
 )
 
 func Add(numbers string) int {
-	if numbers == "" {
-		return 0
+	splitNums := strings.Split(numbers, ",")
+	var sum int
+	for _, splitNum := range splitNums {
+		sum += convertedNumber(splitNum)
 	}
-	if len(numbers) == 1 {
-		return convertedNumber(numbers)
-	}
-	if strings.Contains(numbers, ",") {
-		splitNumbers := strings.Split(numbers, ",")
-		if len(splitNumbers) == 2 {
-			return convertedNumber(splitNumbers[0]) + convertedNumber(splitNumbers[1])
-		} else {
-			var sum int
-			for _, n := range splitNumbers {
-				sum += convertedNumber(n)
-			}
-			return sum
-		}
-	}
-
-	return -1
+	return sum
 }
 
-func convertedNumber(n string) int {
-	tn := strings.Trim(n, " ")
-	res, err := strconv.Atoi(tn)
+func convertedNumber(num string) int {
+	trimmedNum := strings.Trim(num, " ")
+	resNum, err := strconv.Atoi(trimmedNum)
 	if err != nil {
 		return 0
 	}
-	return res
+	return resNum
 }
