@@ -14,14 +14,23 @@ func Add(numbers string) int {
 	}
 	if strings.Contains(numbers, ",") {
 		splitNumbers := strings.Split(numbers, ",")
-		return convertedNumber(splitNumbers[0]) + convertedNumber(splitNumbers[1])
+		if len(splitNumbers) == 2 {
+			return convertedNumber(splitNumbers[0]) + convertedNumber(splitNumbers[1])
+		} else {
+			var sum int
+			for _, n := range splitNumbers {
+				sum += convertedNumber(n)
+			}
+			return sum
+		}
 	}
 
 	return -1
 }
 
 func convertedNumber(n string) int {
-	res, err := strconv.Atoi(n)
+	tn := strings.Trim(n, " ")
+	res, err := strconv.Atoi(tn)
 	if err != nil {
 		return 0
 	}
