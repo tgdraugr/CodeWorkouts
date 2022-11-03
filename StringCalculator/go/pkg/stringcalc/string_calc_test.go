@@ -12,10 +12,7 @@ func TestAddsUpToTwoNumbers(t *testing.T) {
 	}{
 		{"", 0}, {"1", 1}, {"1,2", 3},
 	}
-
-	for _, tt := range tests {
-		assertStringCalcResult(t, tt.want, stringcalc.Add(tt.expr))
-	}
+	VerifyAllTests(t, tests)
 }
 
 func TestHandlesUnknownAmountOfNumbers(t *testing.T) {
@@ -27,7 +24,24 @@ func TestHandlesUnknownAmountOfNumbers(t *testing.T) {
 		{"1,3,4,6", 14},
 		{"1,2, 6,1, 2", 12},
 	}
+	VerifyAllTests(t, tests)
+}
 
+func TestHandlesNewLinesBetweenNumbers(t *testing.T) {
+	tests := []struct {
+		expr string
+		want int
+	}{
+		{"1\n2,3", 6},
+		{"1,\n", -1}, // this is meant as not ok (won't be return err for now)
+	}
+	VerifyAllTests(t, tests)
+}
+
+func VerifyAllTests(t *testing.T, tests []struct {
+	expr string
+	want int
+}) {
 	for _, tt := range tests {
 		assertStringCalcResult(t, tt.want, stringcalc.Add(tt.expr))
 	}
