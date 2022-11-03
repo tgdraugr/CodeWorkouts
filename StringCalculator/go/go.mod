@@ -1,3 +1,3 @@
-module github.com/tgdraug/stringcalc
+module github.com/tgdraugr/stringcalc
 
 go 1.18
