@@ -39,7 +39,15 @@ func TestHandlesNewLinesBetweenNumbers(t *testing.T) {
 }
 
 func TestSupportDifferentDelimiters(t *testing.T) {
-	assertStringCalcResult(t, 3, stringcalc.Add("//;\n1;2"))
+	tests := []struct {
+		expr string
+		want int
+	}{
+		{"//;\n1;2", 3},
+		{"//-\n1-2-3", 6},
+		{"//:\n1:2:3:4", 10},
+	}
+	VerifyAllTests(t, tests)
 }
 
 func VerifyAllTests(t *testing.T, tests []struct {
