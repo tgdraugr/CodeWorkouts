@@ -5,27 +5,28 @@ import (
 	"strings"
 )
 
-func Add(numbers string) int {
-	if strings.Contains(numbers, ",\n") {
+func Add(numExpr string) int {
+	if strings.Contains(numExpr, ",\n") {
 		return -1
 	}
-	if strings.HasPrefix(numbers, "//") {
-		remaining := numbers[2:]
-		delimiter := string(remaining[0])
-		remaining = remaining[1:]
-		sanNums := strings.ReplaceAll(remaining, "\n", "")
-		var sum int
-		for _, splitNum := range strings.Split(sanNums, delimiter) {
-			sum += convertedNumber(splitNum)
-		}
-		return sum
-	}
-	sanNums := strings.ReplaceAll(numbers, "\n", ",")
+	delimiter, sanitizedExpr := extractedDelimiterAndSanitizedExpression(numExpr)
 	var sum int
-	for _, splitNum := range strings.Split(sanNums, ",") {
+	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
 		sum += convertedNumber(splitNum)
 	}
 	return sum
+}
+
+func extractedDelimiterAndSanitizedExpression(numExpr string) (del string, expr string) {
+	if strings.HasPrefix(numExpr, "//") {
+		remaining := numExpr[2:]
+		del = string(remaining[0]) // extract delimiter
+		remaining = remaining[1:]  // ignore \n or whatever comes next
+	} else {
+		del = ","
+	}
+	expr = strings.ReplaceAll(numExpr, "\n", del)
+	return
 }
 
 func convertedNumber(num string) int {
