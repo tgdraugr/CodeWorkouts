@@ -9,7 +9,8 @@ func Add(numExpr string) int {
 	if strings.Contains(numExpr, ",\n") {
 		return -1
 	}
-	delimiter, sanitizedExpr := extractedDelimiterAndSanitizedExpression(numExpr)
+	delimiter := getDelimiterOrDefault(numExpr, ",") // extract delimiter
+	sanitizedExpr := getSanitizedExpression(numExpr, delimiter)
 	var sum int
 	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
 		sum += convertedNumber(splitNum)
@@ -17,16 +18,18 @@ func Add(numExpr string) int {
 	return sum
 }
 
-func extractedDelimiterAndSanitizedExpression(numExpr string) (del string, expr string) {
+func getSanitizedExpression(numExpr string, del string) string {
 	if strings.HasPrefix(numExpr, "//") {
-		remaining := numExpr[2:]
-		del = string(remaining[0]) // extract delimiter
-		remaining = remaining[1:]  // ignore \n or whatever comes next
-	} else {
-		del = ","
+		return strings.ReplaceAll(numExpr[4:], "\n", del)
 	}
-	expr = strings.ReplaceAll(numExpr, "\n", del)
-	return
+	return strings.ReplaceAll(numExpr, "\n", del)
+}
+
+func getDelimiterOrDefault(numExpr, def string) string {
+	if strings.HasPrefix(numExpr, "//") {
+		return numExpr[3:3]
+	}
+	return def
 }
 
 func convertedNumber(num string) int {
