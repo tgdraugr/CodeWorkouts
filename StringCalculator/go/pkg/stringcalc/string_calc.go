@@ -9,6 +9,17 @@ func Add(numbers string) int {
 	if strings.Contains(numbers, ",\n") {
 		return -1
 	}
+	if strings.HasPrefix(numbers, "//") {
+		remaining := numbers[2:]
+		delimiter := string(remaining[0])
+		remaining = remaining[1:]
+		sanNums := strings.ReplaceAll(remaining, "\n", "")
+		var sum int
+		for _, splitNum := range strings.Split(sanNums, delimiter) {
+			sum += convertedNumber(splitNum)
+		}
+		return sum
+	}
 	sanNums := strings.ReplaceAll(numbers, "\n", ",")
 	var sum int
 	for _, splitNum := range strings.Split(sanNums, ",") {
