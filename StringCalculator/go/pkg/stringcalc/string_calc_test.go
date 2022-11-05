@@ -38,6 +38,11 @@ func TestAdd(t *testing.T) {
 			{"//-\n1-2-3", fmt.Sprint(6)},
 			{"//:\n1:2:3:4", fmt.Sprint(10)},
 		}},
+		{"Should throw error on negatives", []testCaseParam{
+			{"-1", "negatives not allowed: -1"},
+			{"1,-2", "negatives not allowed: -2"},
+			{"//:\n1:2:-3:4", "negatives not allowed: -3"},
+		}},
 	}
 	for _, tc := range tcc {
 		t.Run(tc.Name, func(t *testing.T) {
@@ -46,26 +51,15 @@ func TestAdd(t *testing.T) {
 	}
 }
 
-func TestAddError(t *testing.T) {
-	tcc := []struct {
-		expr string
-		want string
-	}{
-		{"-1", "negatives not allowed: -1"},
-		{"1,-2", "negatives not allowed: -2"},
-		{"//:\n1:2:-3:4", "negatives not allowed: -3"},
-	}
-	for _, tc := range tcc {
-		_, got := stringcalc.Add(tc.expr)
-		if got.Error() != tc.want {
-			t.Errorf("Should be err '%s' but instead got '%s'", tc.want, got.Error())
-		}
-	}
-}
-
 func VerifyAllTests(t *testing.T, params []testCaseParam) {
 	for _, param := range params {
-		got, _ := stringcalc.Add(param.Expr)
+		got, err := stringcalc.Add(param.Expr)
+		if err != nil {
+			if err.Error() != param.Want {
+				t.Errorf("Should be err '%s' but instead got '%s'", param.Want, err.Error())
+			}
+			continue
+		}
 		if fmt.Sprint(got) != param.Want {
 			t.Errorf("Should be '%s' but instead got '%s'", param.Want, fmt.Sprint(got))
 		}
