@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
+const defaultDelimiter = ","
+
 func Add(numExpr string) int {
 	if strings.Contains(numExpr, ",\n") {
 		return -1
 	}
-	delimiter := getDelimiterOrDefault(numExpr, ",") // extract delimiter
+	delimiter := getDelimiterOrDefault(numExpr, defaultDelimiter) // extract delimiter
 	sanitizedExpr := getSanitizedExpression(numExpr, delimiter)
 	var sum int
 	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
