@@ -46,22 +46,19 @@ func TestAdd(t *testing.T) {
 }
 
 func TestAddError(t *testing.T) {
-	wantErr := "negatives not allowed: -1"
-	_, gotErr := stringcalc.Add("-1")
-	if gotErr.Error() != wantErr {
-		t.Errorf("Should be err '%s' but instead got '%s'", wantErr, gotErr.Error())
+	tcc := []struct {
+		expr string
+		want string
+	}{
+		{"-1", "negatives not allowed: -1"},
+		{"1,-2", "negatives not allowed: -2"},
+		{"//:\n1:2:-3:4", "negatives not allowed: -3"},
 	}
-
-	wantErr = "negatives not allowed: -2"
-	_, gotErr = stringcalc.Add("1,-2")
-	if gotErr.Error() != wantErr {
-		t.Errorf("Should be err '%s' but instead got '%s'", wantErr, gotErr.Error())
-	}
-
-	wantErr = "negatives not allowed: -3"
-	_, gotErr = stringcalc.Add("//:\n1:2:-3:4")
-	if gotErr.Error() != wantErr {
-		t.Errorf("Should be err '%s' but instead got '%s'", wantErr, gotErr.Error())
+	for _, tc := range tcc {
+		_, got := stringcalc.Add(tc.expr)
+		if got.Error() != tc.want {
+			t.Errorf("Should be err '%s' but instead got '%s'", tc.want, got.Error())
+		}
 	}
 }
 
