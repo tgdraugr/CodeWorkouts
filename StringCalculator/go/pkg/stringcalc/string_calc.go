@@ -1,23 +1,29 @@
 package stringcalc
 
 import (
+	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
 
 const defaultDelimiter = ","
 
-func Add(numExpr string) int {
+func Add(numExpr string) (int, error) {
 	if strings.Contains(numExpr, ",\n") {
-		return -1
+		return -1, nil // TODO: Make this an error
 	}
 	delimiter := getDelimiterOrDefault(numExpr, defaultDelimiter) // extract delimiter
 	sanitizedExpr := getSanitizedExpression(numExpr, delimiter)
 	var sum int
 	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
-		sum += convertedNumber(splitNum)
+		num := convertedNumber(splitNum)
+		if num < 0 {
+			return -1, errors.New(fmt.Sprintf("negatives not allowed: %d", num))
+		}
+		sum += num
 	}
-	return sum
+	return sum, nil
 }
 
 func getSanitizedExpression(numExpr string, del string) string {
@@ -29,7 +35,7 @@ func getSanitizedExpression(numExpr string, del string) string {
 
 func getDelimiterOrDefault(numExpr, def string) string {
 	if strings.HasPrefix(numExpr, "//") {
-		return numExpr[3:3]
+		return numExpr[2:3]
 	}
 	return def
 }
