@@ -57,7 +57,8 @@ func TestAdd(t *testing.T) {
 		}},
 		{"Should allow multiple delimiters of any length", []testCaseParam{
 			{"//[*][%]\n1%2*3", fmt.Sprint(6)},
-		}},
+			{"//[&&][%]\n1%2&&9", fmt.Sprint(12)},
+			{"//[aa][bbb]\n0aa1bbb9", fmt.Sprint(10)}}},
 	}
 	for _, tc := range tcc {
 		t.Run(tc.Name, func(t *testing.T) {
