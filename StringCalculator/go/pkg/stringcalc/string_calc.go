@@ -30,19 +30,21 @@ type expression struct {
 
 func newExpression(expr string) (*expression, error) {
 	i := 0
-	h := expr[:i]
 	if strings.HasPrefix(expr, "//") { // has header
 		i = strings.Index(expr, "\n")
-		h = expr[2:i]
+		return &expression{header: expr[2:i], body: expr[i:]}, nil
 	}
-	return &expression{header: h, body: expr[i:]}, nil
+	return &expression{header: expr[:i], body: expr[i:]}, nil
 }
 
 func (e *expression) SumAll() (int, error) {
 	var sum int
 	var negs []string
 	for _, token := range strings.Split(e.sanitizedBody(), defaultDelimiter) {
-		num := number(token)
+		num, err := strconv.Atoi(strings.Trim(token, " "))
+		if err != nil {
+			continue
+		}
 		if num < 0 {
 			negs = append(negs, token)
 		} else if num <= maxThreshold {
@@ -66,8 +68,8 @@ func (e *expression) sanitizedBody() string {
 func (e *expression) delimiters() []string {
 	dd := []string{defaultDelimiter}
 	var d string
-	for _, t := range e.header {
-		token := string(t)
+	for _, ht := range e.header {
+		token := string(ht)
 		if token == "[" {
 			d = ""
 		} else if token == "]" {
@@ -80,12 +82,4 @@ func (e *expression) delimiters() []string {
 		dd = append(dd, d)
 	}
 	return dd
-}
-
-func number(token string) int {
-	num, err := strconv.Atoi(strings.Trim(token, " "))
-	if err != nil {
-		return 0
-	}
-	return num
 }
