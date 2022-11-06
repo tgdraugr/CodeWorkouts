@@ -7,51 +7,54 @@ import (
 	"strings"
 )
 
-const defaultDelimiter = ","
+const (
+	defaultDelimiter = ","
+	maxThreshold     = 1000
+)
 
-func Add(numExpr string) (int, error) {
-	if strings.Contains(numExpr, ",\n") {
+func Add(expr string) (int, error) {
+	if strings.Contains(expr, ",\n") {
 		return -1, nil // TODO: Make this an error
 	}
-	delimiter := getDelimiterOrDefault(numExpr, defaultDelimiter) // extract delimiter
-	sanitizedExpr := getSanitizedExpression(numExpr, delimiter)
-	var sum int
-	var negatives []string
-	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
-		num := convertedNumber(splitNum)
-		if num < 0 {
-			negatives = append(negatives, splitNum)
-			continue
-		} else if num > 1000 {
-			continue
-		} else {
-			sum += num
-		}
-	}
+	delimiter := getDelimiterOrDefault(expr, defaultDelimiter) // extract delimiter
+	saneExpr := getSanitizedExpression(expr, delimiter)
+	sum, negatives := sumAll(saneExpr, delimiter)
 	if len(negatives) > 0 {
 		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negatives, ",")))
 	}
 	return sum, nil
 }
 
-func getSanitizedExpression(numExpr string, del string) string {
-	if strings.HasPrefix(numExpr, "//") {
-		return strings.ReplaceAll(numExpr[4:], "\n", del)
+func sumAll(saneExpr string, delimiter string) (sum int, negs []string) {
+	for _, token := range strings.Split(saneExpr, delimiter) {
+		num := number(token)
+		if num < 0 {
+			negs = append(negs, token)
+		} else if num <= maxThreshold {
+			sum += num
+		}
 	}
-	return strings.ReplaceAll(numExpr, "\n", del)
+	return
 }
 
-func getDelimiterOrDefault(numExpr, def string) string {
-	if strings.HasPrefix(numExpr, "//") {
-		return numExpr[2:3]
+func getSanitizedExpression(expr string, del string) string {
+	if strings.HasPrefix(expr, "//") {
+		return strings.ReplaceAll(expr[4:], "\n", del)
+	}
+	return strings.ReplaceAll(expr, "\n", del)
+}
+
+func getDelimiterOrDefault(expr, def string) string {
+	if strings.HasPrefix(expr, "//") {
+		return expr[2:3]
 	}
 	return def
 }
 
-func convertedNumber(num string) int {
-	resNum, err := strconv.Atoi(strings.Trim(num, " "))
+func number(token string) int {
+	num, err := strconv.Atoi(strings.Trim(token, " "))
 	if err != nil {
 		return 0
 	}
-	return resNum
+	return num
 }
