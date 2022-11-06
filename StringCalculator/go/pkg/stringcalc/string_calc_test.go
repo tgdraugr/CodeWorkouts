@@ -42,6 +42,7 @@ func TestAdd(t *testing.T) {
 			{"-1", "negatives not allowed: -1"},
 			{"1,-2", "negatives not allowed: -2"},
 			{"//:\n1:2:-3:4", "negatives not allowed: -3"},
+			{"//:\n-1:2:-3", "negatives not allowed: -3, -4"},
 		}},
 	}
 	for _, tc := range tcc {
