@@ -16,12 +16,17 @@ func Add(numExpr string) (int, error) {
 	delimiter := getDelimiterOrDefault(numExpr, defaultDelimiter) // extract delimiter
 	sanitizedExpr := getSanitizedExpression(numExpr, delimiter)
 	var sum int
+	var negatives []string
 	for _, splitNum := range strings.Split(sanitizedExpr, delimiter) {
 		num := convertedNumber(splitNum)
 		if num < 0 {
-			return -1, errors.New(fmt.Sprintf("negatives not allowed: %d", num))
+			negatives = append(negatives, splitNum)
+			continue
 		}
 		sum += num
+	}
+	if len(negatives) > 0 {
+		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negatives, ",")))
 	}
 	return sum, nil
 }
