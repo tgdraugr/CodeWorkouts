@@ -16,17 +16,30 @@ func Add(expr string) (int, error) {
 	if strings.Contains(expr, ",\n") {
 		return -1, nil // TODO: Make this an error
 	}
-	dd := delimiters(expr) // extract delimiter
-	saneExpr := sanitizedExpression(expr, dd)
-	sum, negatives := sumAll(saneExpr)
-	if len(negatives) > 0 {
-		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negatives, ",")))
+	e, err := newExpression(expr)
+	if err != nil {
+		return -1, err
 	}
-	return sum, nil
+	return e.SumAll()
 }
 
-func sumAll(saneExpr string) (sum int, negs []string) {
-	for _, token := range strings.Split(saneExpr, defaultDelimiter) {
+type expression struct {
+	header string
+	body   string
+}
+
+func newExpression(expr string) (*expression, error) {
+	i := 0
+	if strings.HasPrefix(expr, "//") {
+		i = strings.Index(expr, "\n")
+	}
+	return &expression{header: expr, body: expr[i:]}, nil
+}
+
+func (e *expression) SumAll() (int, error) {
+	var sum int
+	var negs []string
+	for _, token := range strings.Split(e.sanitizedBody(), defaultDelimiter) {
 		num := number(token)
 		if num < 0 {
 			negs = append(negs, token)
@@ -34,7 +47,15 @@ func sumAll(saneExpr string) (sum int, negs []string) {
 			sum += num
 		}
 	}
-	return
+	if len(negs) > 0 {
+		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negs, ",")))
+	}
+	return sum, nil
+}
+
+func (e *expression) sanitizedBody() string {
+	dd := delimiters(e.header)
+	return sanitizedExpression(e.body, dd)
 }
 
 func sanitizedExpression(expr string, delimiters []string) string {
