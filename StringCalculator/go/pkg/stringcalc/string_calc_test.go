@@ -45,6 +45,9 @@ func TestAdd(t *testing.T) {
 			{"//:\n-1:2:-3", "negatives not allowed: -1,-3"},
 			{"//;\n-1;2;-3;4;-5", "negatives not allowed: -1,-3,-5"},
 		}},
+		{"Should ignore numbers bigger than 1000", []testCaseParam{
+			{"1001", fmt.Sprint(0)},
+		}},
 	}
 	for _, tc := range tcc {
 		t.Run(tc.Name, func(t *testing.T) {
