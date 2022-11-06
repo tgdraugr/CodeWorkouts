@@ -40,7 +40,7 @@ func newExpression(expr string) (*expression, error) {
 func (e *expression) SumAll() (int, error) {
 	var sum int
 	var negs []string
-	for _, token := range strings.Split(e.sanitizedBody(), defaultDelimiter) {
+	for _, token := range e.tokens() {
 		num, err := strconv.Atoi(strings.Trim(token, " "))
 		if err != nil {
 			continue
@@ -57,12 +57,12 @@ func (e *expression) SumAll() (int, error) {
 	return sum, nil
 }
 
-func (e *expression) sanitizedBody() string {
+func (e *expression) tokens() []string {
 	saneExpr := strings.ReplaceAll(e.body, "\n", defaultDelimiter)
 	for _, delim := range e.delimiters() {
 		saneExpr = strings.ReplaceAll(saneExpr, delim, defaultDelimiter)
 	}
-	return saneExpr
+	return strings.Split(saneExpr, defaultDelimiter)
 }
 
 func (e *expression) delimiters() []string {
