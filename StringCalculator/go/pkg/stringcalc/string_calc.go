@@ -22,8 +22,11 @@ func Add(numExpr string) (int, error) {
 		if num < 0 {
 			negatives = append(negatives, splitNum)
 			continue
+		} else if num > 1000 {
+			continue
+		} else {
+			sum += num
 		}
-		sum += num
 	}
 	if len(negatives) > 0 {
 		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negatives, ",")))

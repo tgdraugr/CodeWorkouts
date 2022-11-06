@@ -47,6 +47,8 @@ func TestAdd(t *testing.T) {
 		}},
 		{"Should ignore numbers bigger than 1000", []testCaseParam{
 			{"1001", fmt.Sprint(0)},
+			{"1,4,1100,5", fmt.Sprint(10)},
+			{"//:\n1:2:2000:4", fmt.Sprint(7)},
 		}},
 	}
 	for _, tc := range tcc {
