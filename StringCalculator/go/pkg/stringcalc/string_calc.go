@@ -30,10 +30,12 @@ type expression struct {
 
 func newExpression(expr string) (*expression, error) {
 	i := 0
+	h := expr[:i]
 	if strings.HasPrefix(expr, "//") { // has header
 		i = strings.Index(expr, "\n")
+		h = expr[2:i]
 	}
-	return &expression{header: expr[:i], body: expr[i:]}, nil
+	return &expression{header: h, body: expr[i:]}, nil
 }
 
 func (e *expression) SumAll() (int, error) {
@@ -62,29 +64,22 @@ func (e *expression) sanitizedBody() string {
 }
 
 func (e *expression) delimiters() []string {
-	if strings.HasPrefix(e.header, "//") {
-		var dd []string
-		var d string
-		for i, token := range e.header {
-			if i < 2 {
-				continue
-			}
-			if string(token) == "[" {
-				d = ""
-				continue
-			}
-			if string(token) == "]" {
-				dd = append(dd, d)
-				continue
-			}
-			d += string(token)
-		}
-		if len(dd) == 0 {
+	dd := []string{defaultDelimiter}
+	var d string
+	for _, t := range e.header {
+		token := string(t)
+		if token == "[" {
+			d = ""
+		} else if token == "]" {
 			dd = append(dd, d)
+		} else {
+			d += token
 		}
-		return dd
 	}
-	return []string{defaultDelimiter}
+	if d != "" {
+		dd = append(dd, d)
+	}
+	return dd
 }
 
 func number(token string) int {
