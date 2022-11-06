@@ -16,22 +16,17 @@ func Add(expr string) (int, error) {
 	if strings.Contains(expr, ",\n") {
 		return -1, nil // TODO: Make this an error
 	}
-	delimiters := delimitersOrDefault(expr, defaultDelimiter) // extract delimiter
-	saneExpr := sanitizedExpression(expr, delimiters)
-
-	for _, delim := range delimiters {
-		saneExpr = strings.ReplaceAll(saneExpr, delim, defaultDelimiter)
-	}
-
-	sum, negatives := sumAll(saneExpr, defaultDelimiter)
+	dd := delimiters(expr) // extract delimiter
+	saneExpr := sanitizedExpression(expr, dd)
+	sum, negatives := sumAll(saneExpr)
 	if len(negatives) > 0 {
 		return -1, errors.New(fmt.Sprintf("negatives not allowed: %s", strings.Join(negatives, ",")))
 	}
 	return sum, nil
 }
 
-func sumAll(saneExpr string, delimiter string) (sum int, negs []string) {
-	for _, token := range strings.Split(saneExpr, delimiter) {
+func sumAll(saneExpr string) (sum int, negs []string) {
+	for _, token := range strings.Split(saneExpr, defaultDelimiter) {
 		num := number(token)
 		if num < 0 {
 			negs = append(negs, token)
@@ -43,34 +38,38 @@ func sumAll(saneExpr string, delimiter string) (sum int, negs []string) {
 }
 
 func sanitizedExpression(expr string, delimiters []string) string {
+	i := 0
 	if strings.HasPrefix(expr, "//") {
-		return strings.ReplaceAll(expr[4:], "\n", defaultDelimiter)
+		i = strings.Index(expr, "\n")
 	}
-
-	return strings.ReplaceAll(expr, "\n", defaultDelimiter)
+	saneExpr := strings.ReplaceAll(expr[i:], "\n", defaultDelimiter)
+	for _, delim := range delimiters {
+		saneExpr = strings.ReplaceAll(saneExpr, delim, defaultDelimiter)
+	}
+	return saneExpr
 }
 
-func delimitersOrDefault(expr, def string) []string {
+func delimiters(expr string) []string {
 	if strings.HasPrefix(expr, "//") {
-		var delimiters []string
-		var del string
+		var dd []string
+		var d string
 		for i := 2; expr[i:i+1] != "\n"; i++ { // \n is the end of the header
 			if expr[i:i+1] == "[" {
-				del = ""
+				d = ""
 				continue
 			}
 			if expr[i:i+1] == "]" {
-				delimiters = append(delimiters, del)
+				dd = append(dd, d)
 				continue
 			}
-			del += expr[i : i+1]
+			d += expr[i : i+1]
 		}
-		if len(delimiters) == 0 {
-			delimiters = append(delimiters, del)
+		if len(dd) == 0 {
+			dd = append(dd, d)
 		}
-		return delimiters
+		return dd
 	}
-	return []string{def}
+	return []string{defaultDelimiter}
 }
 
 func number(token string) int {
