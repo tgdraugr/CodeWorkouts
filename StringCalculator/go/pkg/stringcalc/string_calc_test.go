@@ -31,7 +31,7 @@ func TestAdd(t *testing.T) {
 		}},
 		{"Should new lines between numbers", []testCaseParam{
 			{"1\n2,3", fmt.Sprint(6)},
-			{"1,\n", fmt.Sprint(-1)}, // this is meant as not ok (won't be return err for now)
+			{"1,\n", "invalid input"}, // this is meant as not ok (won't be return err for now)
 		}},
 		{"Should support different delimiters", []testCaseParam{
 			{"//;\n1;2", fmt.Sprint(3)},

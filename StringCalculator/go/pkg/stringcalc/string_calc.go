@@ -13,9 +13,6 @@ const (
 )
 
 func Add(expr string) (int, error) {
-	if strings.Contains(expr, ",\n") {
-		return -1, nil // TODO: Make this an error
-	}
 	e, err := newExpression(expr)
 	if err != nil {
 		return -1, err
@@ -29,6 +26,9 @@ type expression struct {
 }
 
 func newExpression(expr string) (*expression, error) {
+	if strings.Contains(expr, ",\n") {
+		return nil, errors.New("invalid input")
+	}
 	i := 0
 	if strings.HasPrefix(expr, "//") { // has header
 		i = strings.Index(expr, "\n")
