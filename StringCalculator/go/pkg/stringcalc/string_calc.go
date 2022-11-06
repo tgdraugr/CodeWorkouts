@@ -46,7 +46,17 @@ func sanitizedExpression(expr string, del string) string {
 
 func delimiterOrDefault(expr, def string) string {
 	if strings.HasPrefix(expr, "//") {
-		return expr[2:3]
+		var del string
+		for i := 2; expr[i:i+1] != "\n"; i++ { // \n is the end of the header
+			if expr[i:i+1] == "[" {
+				continue
+			}
+			if expr[i:i+1] == "]" {
+				continue
+			}
+			del += expr[i : i+1]
+		}
+		return del
 	}
 	return def
 }

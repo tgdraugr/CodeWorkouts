@@ -50,6 +50,11 @@ func TestAdd(t *testing.T) {
 			{"1,4,1100,5", fmt.Sprint(10)},
 			{"//:\n1:2:2000:4", fmt.Sprint(7)},
 		}},
+		{"Should allow delimiters of any length", []testCaseParam{
+			{"//[***]\n1***2***3", fmt.Sprint(6)},
+			{"//[%]\n2%3%3", fmt.Sprint(8)},
+			{"//[//]\n10//4//6", fmt.Sprint(20)},
+		}},
 	}
 	for _, tc := range tcc {
 		t.Run(tc.Name, func(t *testing.T) {
