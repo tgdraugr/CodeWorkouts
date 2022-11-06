@@ -54,17 +54,9 @@ func (e *expression) SumAll() (int, error) {
 }
 
 func (e *expression) sanitizedBody() string {
+	saneExpr := strings.ReplaceAll(e.body, "\n", defaultDelimiter)
 	dd := delimiters(e.header)
-	return sanitizedExpression(e.body, dd)
-}
-
-func sanitizedExpression(expr string, delimiters []string) string {
-	i := 0
-	if strings.HasPrefix(expr, "//") {
-		i = strings.Index(expr, "\n")
-	}
-	saneExpr := strings.ReplaceAll(expr[i:], "\n", defaultDelimiter)
-	for _, delim := range delimiters {
+	for _, delim := range dd {
 		saneExpr = strings.ReplaceAll(saneExpr, delim, defaultDelimiter)
 	}
 	return saneExpr
