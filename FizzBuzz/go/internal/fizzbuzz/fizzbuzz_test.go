@@ -2,30 +2,35 @@ package fizzbuzz_test
 
 import (
 	"github.com/tgdraugr/CodeWorkouts/FizzBuzz/internal/fizzbuzz"
-	"strconv"
 	"testing"
 )
 
 func TestFizzBuzz(t *testing.T) {
 	t.Run("Should print one line to 100", func(t *testing.T) {
-		output := doFizzFuzz(t)
-		want := 1
-		for _, got := range output {
-			if got != strconv.Itoa(want) {
-				t.Errorf("should be '%d' but got '%s'", want, got)
+		output := doFizzFuzz()
+		want := 100
+		got := len(output)
+		if got != want {
+			t.Errorf("should be '%d' but got '%d'", want, got)
+		}
+	})
+
+	t.Run("Should print 'Fizz' for multiples of 3", func(t *testing.T) {
+		output := doFizzFuzz()
+		want := "Fizz"
+		for i := 3; i <= 100; i += 3 {
+			got := output[i-1]
+			if want != got {
+				t.Errorf("should be '%s' but got '%s'", want, got)
 			}
-			want++
 		}
 	})
 }
 
-func doFizzFuzz(t *testing.T) []string {
+func doFizzFuzz() []string {
 	var output []string
 	fizzbuzz.FizzBuzz(func(n string) {
 		output = append(output, n)
 	})
-	if len(output) == 0 {
-		t.Error("Got no output")
-	}
 	return output
 }

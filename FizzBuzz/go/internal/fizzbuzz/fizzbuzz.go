@@ -6,6 +6,10 @@ const defaultMax = 100
 
 func FizzBuzz(printFunc func(string)) {
 	for i := 1; i <= defaultMax; i++ {
-		printFunc(strconv.Itoa(i))
+		if i%3 == 0 {
+			printFunc("Fizz")
+		} else {
+			printFunc(strconv.Itoa(i))
+		}
 	}
 }
