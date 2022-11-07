@@ -7,7 +7,7 @@ import (
 
 func TestFizzBuzz(t *testing.T) {
 	t.Run("Should print one line to 100", func(t *testing.T) {
-		output := doFizzFuzz()
+		output := fizzBuzzed()
 		want := 100
 		got := len(output)
 		if got != want {
@@ -16,12 +16,12 @@ func TestFizzBuzz(t *testing.T) {
 	})
 
 	t.Run("Should print 'FizzBuzz' for multiples of 3 and 5", func(t *testing.T) {
-		output := doFizzFuzz()
+		output := fizzBuzzed()
 		verifyMultiples(t, output, 15, "FizzBuzz", func(int) bool { return true })
 	})
 
 	t.Run("Should print 'Fizz' for multiples of 3", func(t *testing.T) {
-		output := doFizzFuzz()
+		output := fizzBuzzed()
 		assertOnlyIf := func(i int) bool {
 			return i%5 != 0
 		}
@@ -29,7 +29,7 @@ func TestFizzBuzz(t *testing.T) {
 	})
 
 	t.Run("Should print 'Buzz' for multiples of 5", func(t *testing.T) {
-		output := doFizzFuzz()
+		output := fizzBuzzed()
 		assertOnlyIf := func(i int) bool {
 			return i%3 != 0
 		}
@@ -48,7 +48,7 @@ func verifyMultiples(t *testing.T, output []string, multiple int, want string, a
 	}
 }
 
-func doFizzFuzz() []string {
+func fizzBuzzed() []string {
 	var output []string
 	fizzbuzz.FizzBuzz(func(n string) {
 		output = append(output, n)
