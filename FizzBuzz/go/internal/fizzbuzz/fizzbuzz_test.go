@@ -19,9 +19,26 @@ func TestFizzBuzz(t *testing.T) {
 		output := doFizzFuzz()
 		want := "Fizz"
 		for i := 3; i <= 100; i += 3 {
+			if i%5 == 0 {
+				continue
+			}
 			got := output[i-1]
 			if want != got {
-				t.Errorf("should be '%s' but got '%s'", want, got)
+				t.Errorf("should be '%s' but got '%s' (num=%d)", want, got, i)
+			}
+		}
+	})
+
+	t.Run("Should print 'Buzz' for multiples of 5", func(t *testing.T) {
+		output := doFizzFuzz()
+		want := "Buzz"
+		for i := 5; i <= 100; i += 5 {
+			if i%3 == 0 {
+				continue
+			}
+			got := output[i-1]
+			if want != got {
+				t.Errorf("should be '%s' but got '%s' (num=%d)", want, got, i)
 			}
 		}
 	})
