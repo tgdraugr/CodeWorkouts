@@ -7,25 +7,25 @@ import (
 )
 
 func TestFizzBuzz(t *testing.T) {
-	// Should print one line to 100
+	t.Run("Should print one line to 100", func(t *testing.T) {
+		output := doFizzFuzz(t)
+		want := 1
+		for _, got := range output {
+			if got != strconv.Itoa(want) {
+				t.Errorf("should be '%d' but got '%s'", want, got)
+			}
+			want++
+		}
+	})
+}
+
+func doFizzFuzz(t *testing.T) []string {
 	var output []string
 	fizzbuzz.FizzBuzz(func(n string) {
 		output = append(output, n)
 	})
-
 	if len(output) == 0 {
 		t.Error("Got no output")
 	}
-
-	want := 1
-	for _, o := range output {
-		got, err := strconv.Atoi(o)
-		if err != nil {
-			t.Error("The item is not a number")
-		}
-		if got != want {
-			t.Errorf("should be '%d' but got '%d'", want, got)
-		}
-		want++
-	}
+	return output
 }
