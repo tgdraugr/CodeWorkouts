@@ -33,7 +33,7 @@ func TestFizzBuzz(t *testing.T) {
 		assertOnlyIf := func(i int) bool {
 			return i%3 != 0
 		}
-		verifyMultiples(t, output, 3, "Buzz", assertOnlyIf)
+		verifyMultiples(t, output, 5, "Buzz", assertOnlyIf)
 	})
 }
 
