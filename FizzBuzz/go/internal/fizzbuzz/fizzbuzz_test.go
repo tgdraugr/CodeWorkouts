@@ -15,33 +15,37 @@ func TestFizzBuzz(t *testing.T) {
 		}
 	})
 
+	t.Run("Should print 'FizzBuzz' for multiples of 3 and 5", func(t *testing.T) {
+		output := doFizzFuzz()
+		verifyMultiples(t, output, 15, "FizzBuzz", func(int) bool { return true })
+	})
+
 	t.Run("Should print 'Fizz' for multiples of 3", func(t *testing.T) {
 		output := doFizzFuzz()
-		want := "Fizz"
-		for i := 3; i <= 100; i += 3 {
-			if i%5 == 0 {
-				continue
-			}
-			got := output[i-1]
-			if want != got {
-				t.Errorf("should be '%s' but got '%s' (num=%d)", want, got, i)
-			}
+		assertOnlyIf := func(i int) bool {
+			return i%5 != 0
 		}
+		verifyMultiples(t, output, 3, "Fizz", assertOnlyIf)
 	})
 
 	t.Run("Should print 'Buzz' for multiples of 5", func(t *testing.T) {
 		output := doFizzFuzz()
-		want := "Buzz"
-		for i := 5; i <= 100; i += 5 {
-			if i%3 == 0 {
-				continue
-			}
+		assertOnlyIf := func(i int) bool {
+			return i%3 != 0
+		}
+		verifyMultiples(t, output, 3, "Buzz", assertOnlyIf)
+	})
+}
+
+func verifyMultiples(t *testing.T, output []string, multiple int, want string, assertConditionFunc func(int) bool) {
+	for i := multiple; i <= 100; i += multiple {
+		if assertConditionFunc(i) {
 			got := output[i-1]
 			if want != got {
 				t.Errorf("should be '%s' but got '%s' (num=%d)", want, got, i)
 			}
 		}
-	})
+	}
 }
 
 func doFizzFuzz() []string {
