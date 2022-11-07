@@ -1,4 +1,4 @@
-![banner](./images/workout.jpg)
+![banner](./.assets/workout.jpg)
 
 # Code Workouts
 Repository for Code Workouts of the Day 💪🏼
