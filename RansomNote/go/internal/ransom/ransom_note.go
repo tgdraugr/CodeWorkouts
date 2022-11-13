@@ -13,16 +13,14 @@ func magazineHasWordsForNote(magazine []string, note []string) bool {
 		availableWords[word] = word
 	}
 
-	remainingNote := map[string]string{}
-	for _, word := range note {
-		remainingNote[word] = word
-	}
-
+	hasAllWords := true
 	for _, word := range note {
 		if _, ok := availableWords[word]; ok {
 			delete(availableWords, word)
-			delete(remainingNote, word)
+		} else {
+			hasAllWords = false
+			break
 		}
 	}
-	return len(magazine) > 0 && len(note) > 0 && len(remainingNote) == 0
+	return len(magazine) > 0 && len(note) > 0 && hasAllWords
 }

@@ -21,6 +21,11 @@ func TestCheckMagazine(t *testing.T) {
 			strings.Split("give one grand today", " "),
 			"Yes",
 		},
+		"responds no when magazine does not have enough words for the note": {
+			strings.Split("two times three is not four", " "),
+			strings.Split("two times two is four", " "),
+			"No",
+		},
 	}
 
 	for name, c := range cases {
@@ -36,6 +41,6 @@ func verifyCheckMagazine(t *testing.T, magazine []string, note []string, want st
 		t.Fail()
 	}
 	if want != got {
-		t.Error()
+		t.Errorf("Want '%s' but got '%s'", want, got)
 	}
 }
