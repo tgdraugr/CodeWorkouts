@@ -17,13 +17,18 @@ func TestCheckMagazine(t *testing.T) {
 			[]string{}, []string{}, "No",
 		},
 		"responds yes when magazine contains all the words needed for the note": {
-			strings.Split("give me one grand today night", " "),
-			strings.Split("give one grand today", " "),
+			sentence("give me one grand today night"),
+			sentence("give one grand today"),
 			"Yes",
 		},
 		"responds no when magazine does not have enough words for the note": {
-			strings.Split("two times three is not four", " "),
-			strings.Split("two times two is four", " "),
+			sentence("two times three is not four"),
+			sentence("two times two is four"),
+			"No",
+		},
+		"responds no when magazine does not have the intended word": {
+			sentence("ive got a lovely bunch of coconuts"),
+			sentence("ive got some coconuts"),
 			"No",
 		},
 	}
@@ -43,4 +48,8 @@ func verifyCheckMagazine(t *testing.T, magazine []string, note []string, want st
 	if want != got {
 		t.Errorf("Want '%s' but got '%s'", want, got)
 	}
+}
+
+func sentence(s string) []string {
+	return strings.Split(s, " ")
 }
