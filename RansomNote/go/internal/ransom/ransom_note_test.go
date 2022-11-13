@@ -14,6 +14,18 @@ func TestCheckMagazine(t *testing.T) {
 		t.Fail()
 	}
 	if want != got {
-		t.Errorf("misses implementation")
+		t.Error()
+	}
+
+	// responds yes when magazine contains all the words needed for the note
+	want = "Yes"
+	magazine := []string{"give", "me", "one", "grand", "today", "night"}
+	note := []string{"give", "one", "grand", "today"}
+	got, err = CheckMagazine(magazine, note)
+	if err != nil {
+		t.Fail()
+	}
+	if want != got {
+		t.Error()
 	}
 }
